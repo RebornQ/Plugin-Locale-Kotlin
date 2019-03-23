@@ -1,4 +1,4 @@
-package pw.gike.multilanguagestest
+package pw.gike.multilanguagesdemo
 
 import android.support.test.InstrumentationRegistry
 import android.support.test.runner.AndroidJUnit4
@@ -19,6 +19,6 @@ class ExampleInstrumentedTest {
     fun useAppContext() {
         // Context of the app under test.
         val appContext = InstrumentationRegistry.getTargetContext()
-        assertEquals("pw.gike.multilanguagestest", appContext.packageName)
+        assertEquals("pw.gike.multilanguagesdemo", appContext.packageName)
     }
 }

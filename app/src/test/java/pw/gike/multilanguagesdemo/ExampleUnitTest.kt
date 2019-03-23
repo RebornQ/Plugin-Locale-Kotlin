@@ -1,4 +1,4 @@
-package pw.gike.multilanguagestest
+package pw.gike.multilanguagesdemo
 
 import org.junit.Test
 
