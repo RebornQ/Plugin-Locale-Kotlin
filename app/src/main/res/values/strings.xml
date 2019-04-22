@@ -5,10 +5,16 @@
     <string name="text_language_zh">简体中文</string>
     <string name="text_language_en">英文</string>
     <string name="settings">设置</string>
+    <string name="app_name_label">App应用名：%s</string>
     <string name="system_language">当前系统语言：%1$s</string>
     <string name="user_select_language">当前用户选择语言：%s</string>
     <string name="select_language">切换语言</string>
     <string name="please_select_language">请选择语言</string>
+    <string name="application_string">Application的String: %s</string>
+    <string name="activity_string">Activity的String: %s</string>
+    <string name="test_application_string">测试Application的String</string>
+    <string name="test_activity_string">测试Activity的String</string>
+    <string name="test_success">测试成功！</string>
 
     <string-array name="language_titles">
         <item>跟随系统</item>
