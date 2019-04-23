@@ -26,4 +26,11 @@
         <item>zh_CN</item>
         <item>en</item>
     </string-array>
+
+    <string name="fragment_string">Fragment String 测试成功！</string>
+    <string name="test_start">开始测试Context</string>
+    <string name="test_start_application">开始测试ApplicationContext</string>
+    <string name="click">点击</string>
+    <string name="fragment_application_string">Fragment Application String 测试成功！</string>
+    <string name="test_fragment">测试Fragment</string>
 </resources>

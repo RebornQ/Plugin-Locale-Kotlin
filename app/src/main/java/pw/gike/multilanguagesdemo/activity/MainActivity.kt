@@ -16,6 +16,7 @@ class MainActivity : BaseActivity() {
     private lateinit var btStartSettingActivity: Button
     private lateinit var btTestActivityString: Button
     private lateinit var btTestApplicationString: Button
+    private lateinit var btTestFragment: Button
 
     private lateinit var tvAppName: TextView
     private lateinit var tvSystemLanguage: TextView
@@ -34,6 +35,7 @@ class MainActivity : BaseActivity() {
         btStartSettingActivity = findViewById(R.id.bt_settings)
         btTestApplicationString = findViewById(R.id.bt_test_application_string)
         btTestActivityString = findViewById(R.id.bt_test_activity_string)
+        btTestFragment = findViewById(R.id.bt_test_fragment)
 
         tvAppName = findViewById(R.id.tv_app_name)
         tvSystemLanguage = findViewById(R.id.tv_system_language)
@@ -52,6 +54,10 @@ class MainActivity : BaseActivity() {
         btTestActivityString.setOnClickListener {
             tvActivityString.text = getString(R.string.activity_string, getString(R.string.test_success))
             Toast.makeText(this, getString(R.string.test_success), Toast.LENGTH_SHORT).show()
+        }
+        btTestFragment.setOnClickListener {
+            val intent = Intent(this@MainActivity, TestActivity::class.java)
+            startActivity(intent)
         }
     }
 
