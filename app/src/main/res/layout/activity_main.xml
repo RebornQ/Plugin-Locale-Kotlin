@@ -7,98 +7,126 @@
         android:layout_height="match_parent"
         tools:context=".activity.MainActivity">
 
-    <androidx.appcompat.widget.AppCompatTextView
-            android:text="@string/app_name_label"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/tv_app_name" android:layout_marginStart="8dp" app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp" android:layout_marginBottom="12dp"
-            app:layout_constraintBottom_toTopOf="@+id/tv_system_language" app:layout_constraintHorizontal_bias="0.498"
-            android:layout_marginTop="8dp" app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="1.0"/>
-
-    <androidx.appcompat.widget.AppCompatTextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/system_language"
-            android:id="@+id/tv_system_language"
-            android:gravity="center"
-            android:layout_marginStart="8dp"
-            app:layout_constraintStart_toStartOf="parent" android:layout_marginEnd="8dp"
-            app:layout_constraintEnd_toEndOf="parent" android:layout_marginTop="252dp"
-            app:layout_constraintTop_toTopOf="parent" android:layout_marginBottom="17dp"
-            app:layout_constraintBottom_toTopOf="@+id/tv_select_language" app:layout_constraintVertical_bias="1.0"/>
-    <androidx.appcompat.widget.AppCompatTextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/user_select_language"
-            android:id="@+id/tv_select_language"
-            android:gravity="center"
-            app:layout_constraintStart_toStartOf="parent" app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginBottom="124dp" app:layout_constraintBottom_toTopOf="@+id/bt_settings"/>
-
-    <androidx.appcompat.widget.AppCompatTextView
-            android:text="@string/application_string"
-            android:layout_width="wrap_content"
-            android:gravity="center"
-            android:layout_height="wrap_content"
-            android:id="@+id/tv_application_string"
-            android:layout_marginTop="16dp"
-            app:layout_constraintTop_toBottomOf="@+id/tv_select_language" android:layout_marginStart="8dp"
-            app:layout_constraintStart_toStartOf="parent" android:layout_marginEnd="8dp"
-            app:layout_constraintEnd_toEndOf="parent"/>
-
-    <androidx.appcompat.widget.AppCompatTextView
-            android:text="@string/activity_string"
-            android:layout_width="wrap_content"
-            android:gravity="center"
-            android:layout_height="wrap_content"
-            android:id="@+id/tv_activity_string" android:layout_marginTop="12dp"
-            app:layout_constraintTop_toBottomOf="@+id/tv_application_string"
-            android:layout_marginEnd="8dp" app:layout_constraintEnd_toEndOf="parent" android:layout_marginStart="8dp"
-            app:layout_constraintStart_toStartOf="parent"/>
-
     <androidx.appcompat.widget.AppCompatButton
-            android:text="@string/settings"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:id="@+id/bt_settings"
-            android:textAllCaps="false"
-            android:gravity="center"
-            app:layout_constraintStart_toStartOf="@+id/bt_test_application_string" android:layout_marginBottom="8dp"
-            app:layout_constraintEnd_toEndOf="@+id/bt_test_application_string"
-            app:layout_constraintBottom_toTopOf="@+id/bt_test_application_string"/>
-    <androidx.appcompat.widget.AppCompatButton
-            android:text="@string/test_application_string"
             android:layout_width="wrap_content"
-            android:textAllCaps="false"
-            android:gravity="center"
             android:layout_height="wrap_content"
-            android:id="@+id/bt_test_application_string"
-            app:layout_constraintStart_toStartOf="parent" app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" android:layout_marginBottom="196dp"
-            app:layout_constraintHorizontal_bias="0.497"/>
+            android:layout_marginBottom="12dp"
+            android:gravity="center"
+            android:text="@string/settings"
+            android:textAllCaps="false"
+            app:layout_constraintBottom_toTopOf="@+id/bt_test_application_string"
+            app:layout_constraintEnd_toEndOf="@+id/bt_test_application_string"
+            app:layout_constraintStart_toStartOf="@+id/bt_test_application_string" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_select_language"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="120dp"
+            android:gravity="center"
+            android:text="@string/user_select_language"
+            app:layout_constraintBottom_toTopOf="@+id/bt_settings"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
     <androidx.appcompat.widget.AppCompatButton
-            android:text="@string/test_activity_string"
-            android:layout_width="wrap_content"
-            android:textAllCaps="false"
-            android:gravity="center"
-            android:layout_height="wrap_content"
             android:id="@+id/bt_test_activity_string"
-            android:layout_marginTop="8dp"
-            app:layout_constraintTop_toBottomOf="@+id/bt_test_application_string"
-            android:layout_marginStart="8dp" app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginEnd="8dp" app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.497"/>
-    <androidx.appcompat.widget.AppCompatButton
-            android:text="@string/test_fragment"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="8dp"
+            android:gravity="center"
+            android:text="@string/test_activity_string"
             android:textAllCaps="false"
-            android:id="@+id/bt_test_fragment" android:layout_marginTop="13dp"
-            app:layout_constraintTop_toBottomOf="@+id/bt_test_activity_string"
-            app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="8dp"
-            app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp"/>
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.497"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/bt_test_application_string" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_activity_string"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="8dp"
+            android:gravity="center"
+            android:text="@string/activity_string"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_application_string" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_system_language"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="252dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="17dp"
+            android:gravity="center"
+            android:text="@string/system_language"
+            app:layout_constraintBottom_toTopOf="@+id/tv_select_language"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="1.0" />
+
+    <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/bt_test_fragment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="8dp"
+            android:text="@string/test_fragment"
+            android:textAllCaps="false"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/bt_test_activity_string" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_application_string"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="8dp"
+            android:gravity="center"
+            android:text="@string/application_string"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_select_language" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_app_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="12dp"
+            android:text="@string/app_name_label"
+            app:layout_constraintBottom_toTopOf="@+id/tv_system_language"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="1.0" />
+
+    <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/bt_test_application_string"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="224dp"
+            android:gravity="center"
+            android:text="@string/test_application_string"
+            android:textAllCaps="false"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.497"
+            app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
