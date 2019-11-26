@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
+<androidx.constraintlayout.widget.ConstraintLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -7,7 +7,7 @@
         android:layout_height="match_parent"
         tools:context=".activity.SettingActivity">
 
-    <TextView
+    <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/user_select_language"
@@ -18,7 +18,7 @@
             app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="8dp"
             android:layout_marginBottom="8dp" app:layout_constraintBottom_toTopOf="@+id/bt_select_language"
             app:layout_constraintVertical_bias="0.928"/>
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
             android:text="@string/select_language"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -31,4 +31,4 @@
             app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintVertical_bias="0.536"/>
 
 
-</android.support.constraint.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -7,14 +7,14 @@
               android:orientation="vertical"
               tools:context=".fragment.TestFragment">
 
-    <TextView
+    <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tv_test_tips"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text="@string/fragment_string"/>
 
-    <TextView
+    <androidx.appcompat.widget.AppCompatTextView
             android:layout_marginTop="15dp"
             android:id="@+id/tv_test_tips_application"
             android:layout_width="wrap_content"
@@ -22,7 +22,7 @@
             android:gravity="center"
             android:text="@string/fragment_application_string"/>
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
             android:layout_marginTop="15dp"
             android:text="@string/test_start"
             android:layout_width="wrap_content"
@@ -30,7 +30,7 @@
             android:textAllCaps="false"
             android:id="@+id/bt_test_start"/>
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
             android:layout_marginTop="15dp"
             android:text="@string/test_start_application"
             android:layout_width="wrap_content"

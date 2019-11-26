@@ -5,7 +5,7 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
 import pw.gike.multilanguagesdemo.R
-import android.support.v7.app.AlertDialog
+import androidx.appcompat.app.AlertDialog
 import pw.gike.multilanguagesdemo.utils.LocaleManageUtil
 
 // 此处不能继承AppCompatActivity，否则无法通过attachBaseContext()刷新语言
