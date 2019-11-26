@@ -7,6 +7,6 @@ import pw.gike.multilanguagesdemo.utils.LocaleManageUtil
 abstract class BaseActivity : AppCompatActivity() {
 
     override fun attachBaseContext(newBase: Context) {
-        super.attachBaseContext(LocaleManageUtil.setLocal(newBase))
+        super.attachBaseContext(LocaleManageUtil.updateContext(newBase))
     }
 }

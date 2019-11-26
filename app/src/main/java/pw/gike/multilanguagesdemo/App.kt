@@ -8,7 +8,7 @@ import pw.gike.multilanguagesdemo.utils.LocaleManageUtil
 class App : Application() {
 
     override fun attachBaseContext(base: Context) {
-        LocaleManageUtil.saveSystemCurrentLanguage(base)
+        LocaleManageUtil.cacheSystemLocale(base)
         super.attachBaseContext(base)
     }
 
@@ -21,7 +21,7 @@ class App : Application() {
         super.onCreate()
         instance = this
         LocaleManageUtil.setSharePref(this)
-        LocaleManageUtil.setApplicationLanguage(this)
+        LocaleManageUtil.updateApplicationContext(this)
     }
 
     companion object {

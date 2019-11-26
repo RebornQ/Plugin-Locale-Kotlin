@@ -1,5 +1,6 @@
 package pw.gike.multilanguagesdemo.utils
 
+import android.annotation.TargetApi
 import android.content.Context
 import android.content.Intent
 import android.content.res.Configuration
@@ -18,7 +19,7 @@ object LocaleManageUtil {
     private var sharePrefUtils: SharePrefUtils? = null
 
     // 静态属性，修复识别系统语言为英语的问题
-    private var systemCurrentLocal = Locale.ENGLISH
+    private var currentSystemLocale = Locale.ENGLISH
 
     fun setSharePref(context: Context){
         sharePrefUtils = SharePrefUtils
@@ -39,7 +40,7 @@ object LocaleManageUtil {
     }
 
     fun setSystemCurrentLocal(local: Locale) {
-        systemCurrentLocal = local
+        currentSystemLocale = local
     }
 
 
@@ -49,7 +50,7 @@ object LocaleManageUtil {
      * @return Locale对象
      */
     fun getSystemLocale(context: Context): Locale {
-        return systemCurrentLocal
+        return currentSystemLocale
     }
 
     fun getSelectLanguage(context: Context): String {
@@ -67,7 +68,7 @@ object LocaleManageUtil {
      * @param context
      * @return
      */
-    fun getSetLanguageLocale(context: Context): Locale {
+    fun getSetLocale(context: Context): Locale {
 
         return when (getSelectLanguage()) {
             0 -> getSystemLocale(context)
@@ -79,64 +80,85 @@ object LocaleManageUtil {
 
     fun saveSelectLanguage(context: Context, select: Int) {
         saveLanguage(select)
-        setApplicationLanguage(context)
+        updateApplicationContext(context)
     }
 
-    fun setLocal(context: Context): Context {
-        return updateResources(context, getSetLanguageLocale(context))
+    fun updateContext(context: Context): Context {
+        return updateResources(context, getSetLocale(context))
     }
 
     private fun updateResources(context: Context, locale: Locale): Context {
-        var context = context
         Locale.setDefault(locale)
 
         val res = context.resources
-        val config = Configuration(res.configuration)
-        if (Build.VERSION.SDK_INT >= 19) {
-            config.setLocale(locale)
-            context = context.createConfigurationContext(config)
+        val dm = res.displayMetrics
+        val config = res.configuration
+        // 更新configuration，防止返回的context是更新config前的状态
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            setAppLocale(config, locale)
+            // ApplicationContext貌似没办法在其他地方更新configuration
+            res.updateConfiguration(config, dm)
+            context.createConfigurationContext(config)
         } else {
-            config.locale = locale
-            res.updateConfiguration(config, res.displayMetrics)
+            setAppLocaleLegacy(config, locale)
+            res.updateConfiguration(config, dm)
+            context
         }
-        return context
+    }
+    @Suppress("DEPRECATION")
+    private fun setAppLocaleLegacy(config: Configuration, locale: Locale) {
+        config.locale = locale
+    }
+
+    @TargetApi(Build.VERSION_CODES.N)
+    private fun setAppLocale(config: Configuration, locale: Locale) {
+        config.setLocale(locale)
+        val localeList = LocaleList(locale)
+        LocaleList.setDefault(localeList)
+        config.locales = localeList
     }
 
     /**
      * 设置语言类型
      */
-    fun setApplicationLanguage(context: Context) {
-        val resources = context.applicationContext.resources
-        val dm = resources.displayMetrics
-        val config = resources.configuration
-        val locale = getSetLanguageLocale(context)
-        config.locale = locale
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            val localeList = LocaleList(locale)
-            LocaleList.setDefault(localeList)
-            config.locales = localeList
-            context.applicationContext.createConfigurationContext(config)
-            Locale.setDefault(locale)
-        }
-        resources.updateConfiguration(config, dm)
+    fun updateApplicationContext(context: Context) : Context{
+        return updateContext(context.applicationContext)
     }
 
-    fun saveSystemCurrentLanguage(context: Context) {
+    private fun getSystemLocaleLegacy(): Locale {
+        return Locale.getDefault()
+    }
+
+    @TargetApi(Build.VERSION_CODES.N)
+    private fun getSystemLocale(): Locale {
+        return LocaleList.getDefault().get(0)
+    }
+
+    fun cacheSystemLocale(context: Context) {
         val locale: Locale = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            LocaleList.getDefault().get(0)
+            getSystemLocale()
         } else {
-            Locale.getDefault()
+            getSystemLocaleLegacy()
         }
         Log.d(TAG, locale.language)
         setSystemCurrentLocal(locale)
     }
 
     fun onConfigurationChanged(context: Context) {
-        saveSystemCurrentLanguage(context)
-        setLocal(context)
-        setApplicationLanguage(context)
+        cacheSystemLocale(context)
+        updateContext(context)
+        updateApplicationContext(context)
     }
 
+    // 输出当前context使用的语言，仅调试用
+    @Suppress("DEPRECATION")
+    @TargetApi(Build.VERSION_CODES.N)
+    fun printContextLocale(context: Context, tag: String) {
+        val resources = context.resources
+        val config = resources.configuration
+        Log.d("Locale-$tag", config.locale.language)
+        Log.d("Locale-$tag", config.locales.toLanguageTags())
+    }
 
     /**
      * 跳转主页
