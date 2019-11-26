@@ -63,7 +63,7 @@ object LocaleManageUtil {
     }
 
     /**
-     * 获取选择的语言设置
+     * 获取已选择的语言设置
      *
      * @param context
      * @return
