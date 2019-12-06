@@ -81,20 +81,20 @@ object LocaleManageUtil {
     private fun updateResources(context: Context, locale: Locale): Context {
         Locale.setDefault(locale)
 
-        val res = context.resources
+        var cont = context
+        val res = cont.resources
         val dm = res.displayMetrics
         val config = res.configuration
         // 更新configuration，防止返回的context是更新config前的状态
-        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             setAppLocale(config, locale)
             // ApplicationContext貌似没办法在其他地方更新configuration
-            res.updateConfiguration(config, dm)
-            context.createConfigurationContext(config)
+            cont = cont.createConfigurationContext(config)  // 对于8.0+系统必须先调用context.createConfigurationContext(config);否则后面的updateConfiguration不起作用。
         } else {
             setAppLocaleLegacy(config, locale)
-            res.updateConfiguration(config, dm)
-            context
         }
+        res.updateConfiguration(config, dm)
+        return cont
     }
     @Suppress("DEPRECATION")
     private fun setAppLocaleLegacy(config: Configuration, locale: Locale) {
