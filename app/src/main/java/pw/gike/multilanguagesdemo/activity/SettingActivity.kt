@@ -1,14 +1,16 @@
 package pw.gike.multilanguagesdemo.activity
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
-import pw.gike.multilanguagesdemo.R
 import androidx.appcompat.app.AlertDialog
 import org.greenrobot.eventbus.EventBus
 import pw.gike.multilanguagesdemo.Constant
+import pw.gike.multilanguagesdemo.R
 import pw.gike.multilanguagesdemo.utils.LocaleManageUtil
+
 
 // 此处不能继承AppCompatActivity，否则无法通过attachBaseContext()刷新语言
 class SettingActivity : BaseActivity() {
@@ -52,7 +54,14 @@ class SettingActivity : BaseActivity() {
 
     private fun selectLanguage(select: Int) {
         LocaleManageUtil.saveSelectLanguage(this, select)
-        EventBus.getDefault().post(Constant.EVENT_REFRESH_LANGUAGE)
+
+        // 使用 EventBus 可以实现不重启到 LauncherActivity 只需 recreate() 即可刷新 Resources
+//        EventBus.getDefault().post(Constant.EVENT_RECREATE_ACTIVITY)
+
+        // 使用广播也可以实现不重启到 LauncherActivity 只需 recreate() 即可刷新 Resources
+        val intent = Intent(Constant.ACTION_RECREATE_ACTIVITY)
+        sendBroadcast(intent) // 发送广播
+
 //        LocaleManageUtil.toRestartLauncherActivity(this)
     }
 }
