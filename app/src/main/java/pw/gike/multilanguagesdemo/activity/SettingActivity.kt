@@ -6,6 +6,8 @@ import android.widget.Button
 import android.widget.TextView
 import pw.gike.multilanguagesdemo.R
 import androidx.appcompat.app.AlertDialog
+import org.greenrobot.eventbus.EventBus
+import pw.gike.multilanguagesdemo.Constant
 import pw.gike.multilanguagesdemo.utils.LocaleManageUtil
 
 // 此处不能继承AppCompatActivity，否则无法通过attachBaseContext()刷新语言
@@ -50,6 +52,7 @@ class SettingActivity : BaseActivity() {
 
     private fun selectLanguage(select: Int) {
         LocaleManageUtil.saveSelectLanguage(this, select)
-        LocaleManageUtil.toRestartLauncherActivity(this)
+        EventBus.getDefault().post(Constant.EVENT_REFRESH_LANGUAGE)
+//        LocaleManageUtil.toRestartLauncherActivity(this)
     }
 }
