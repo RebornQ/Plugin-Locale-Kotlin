@@ -7,6 +7,7 @@ import android.content.res.Configuration
 import android.os.Build
 import android.os.LocaleList
 import android.util.Log
+import pw.gike.multilanguagesdemo.App
 import pw.gike.multilanguagesdemo.Constant
 import pw.gike.multilanguagesdemo.R
 import pw.gike.multilanguagesdemo.activity.MainActivity
@@ -16,27 +17,17 @@ object LocaleManageUtil {
 
     private val TAG = "LocaleManageUtil"
 
-    private var sharePrefUtils: SharePrefUtils? = null
-
     // 静态属性，修复识别系统语言为英语的问题
     private var currentSystemLocale = Locale.ENGLISH
 
-    fun setSharePref(context: Context){
-        sharePrefUtils = SharePrefUtils
-            .Builder()
-            .setContext(context)
-            .setPref(Constant.LANGUAGE_SP)
-            .create()
-    }
-
     fun saveLanguage(select: Int) {
-        sharePrefUtils!!
+        App.sharePrefUtils
             .dataPrepare(Constant.TAG_LANGUAGE, select)
             .putData()
     }
 
     fun getSelectLanguage(): Int {
-        return sharePrefUtils!!.getInt(Constant.TAG_LANGUAGE)
+        return App.sharePrefUtils.getInt(Constant.TAG_LANGUAGE)
     }
 
     fun setSystemCurrentLocal(local: Locale) {
