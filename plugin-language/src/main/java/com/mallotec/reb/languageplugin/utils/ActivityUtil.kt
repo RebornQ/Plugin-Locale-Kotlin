@@ -1,13 +1,14 @@
-package com.mallotec.reb.languageplugin
+package com.mallotec.reb.languageplugin.utils
 
 import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
+import com.mallotec.reb.languageplugin.Constant
 
 /**
  * Created by reborn on 2019-12-07.
  */
-object ActivityManager {
+object ActivityUtil {
 
     /**
      * 跳转主页

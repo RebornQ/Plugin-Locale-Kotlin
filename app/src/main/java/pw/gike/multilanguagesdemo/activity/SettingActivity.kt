@@ -5,7 +5,7 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
-import com.mallotec.reb.languageplugin.ActivityManager
+import com.mallotec.reb.languageplugin.utils.ActivityUtil
 import com.mallotec.reb.languageplugin.ui.base.BaseAppCompactActivity
 import com.mallotec.reb.languageplugin.utils.LocaleManageUtil
 import pw.gike.multilanguagesdemo.R
@@ -57,7 +57,7 @@ class SettingActivity : BaseAppCompactActivity() {
 //        EventBus.getDefault().post(Constant.EVENT_RECREATE_ACTIVITY)
 
         // 使用广播也可以实现不重启到 LauncherActivity 只需 recreate() 即可刷新 Resources
-        ActivityManager.recreateActivity(this)
+        ActivityUtil.recreateActivity(this)
 
 //        LocaleManageUtil.toRestartLauncherActivity(this)
     }
