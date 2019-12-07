@@ -25,6 +25,7 @@ override fun applyOverrideConfiguration(overrideConfiguration: Configuration?) {
 这种是最经典最容易实现的方法：清空栈内所有 Activity 并启动到 LauncherActivity
 ##### 效果图
 先上效果图：
+
 ![MultiLanguageDemo-RestartToLaunche](/media/MultiLanguageDemo-RestartToLauncher.gif)
 
 ##### 实现
@@ -48,6 +49,7 @@ fun toRestartLauncherActivity(context: Context) {
 核心方法是`Activity`的`recreate()`方法，可以重新渲染对应语言环境的界面。
 ##### 效果图
 先上效果图：
+
 ![MultiLanguageDemo-NoRestartToLaunche](/media/MultiLanguageDemo-NoRestartToLauncher.gif)
 ##### 1. 原生广播实现
 
