@@ -1,17 +1,19 @@
 apply plugin: 'com.android.library'
-
 apply plugin: 'kotlin-android'
-
 apply plugin: 'kotlin-android-extensions'
+
+// 版本号，下次更新是只需要更改版本号即可
+version = "1.0.0"
 
 android {
     compileSdkVersion 29
     buildToolsVersion "29.0.2"
+    resourcePrefix "plugin-language" // 随意命名
     defaultConfig {
         minSdkVersion 22
         targetSdkVersion 29
         versionCode 1
-        versionName "1.0"
+        versionName "${version}"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -39,4 +41,86 @@ dependencies {
     implementation 'androidx.preference:preference:1.1.0'
     // EventBus
 //    implementation 'org.greenrobot:eventbus:3.1.1'
+}
+
+apply plugin: 'com.github.dcendents.android-maven'
+apply plugin: 'com.jfrog.bintray'
+
+// 发布到组织名称名字，必须填写
+group = "com.mallotec.reb"
+// 发布到JCenter上的项目名字，必须填写
+def libName = "plugin-language"
+/**  上面配置后上传至jcenter后的编译路径是这样的： compile 'com.mallotec.reb:plugin-language:1.0.0'  **/
+
+def siteUrl = 'https://github.com/RebornQ/MultiLanguagesDemo-Kotlin'    // Git项目主页
+def gitUrl = 'https://github.com/RebornQ/MultiLanguagesDemo-Kotlin.git' // Git仓库url
+
+// 生成源文件
+task sourcesJar(type: Jar) {
+    from android.sourceSets.main.java.srcDirs
+    classifier = 'sources'
+}
+// 生成文档
+//task javadoc(type: Javadoc) {
+//    options.encoding = "UTF-8" // 设置编码，否则中文可能会提示出错
+//    source = android.sourceSets.main.java.srcDirs
+//    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+//}
+// 文档打包成jar
+//task javadocJar(type: Jar, dependsOn: javadoc) {
+//    classifier = 'javadoc'
+//    from javadoc.destinationDir
+//}
+artifacts {
+//    archives javadocJar
+    archives sourcesJar
+}
+// 配置maven库，生成POM.xml文件
+
+install {
+    repositories.mavenInstaller {
+        // 生成POM.xml
+        pom {
+            project {
+                packaging 'aar'
+                name 'Android Language Plugin' // 项目描述
+                url siteUrl
+                licenses {
+                    license {
+                        name 'The Apache Software License, Version 2.0'
+                        url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                    }
+                }
+                developers {
+                    developer { // 开发者个人信息
+                        id 'RebornQ'
+                        name 'Reborn'
+                        email 'ren_xiaoyao@outlook.com'
+                    }
+                }
+                scm {
+                    connection gitUrl
+                    developerConnection gitUrl
+                    url siteUrl
+                }
+            }
+        }
+    }
+}
+
+// 上传到jcenter
+Properties properties = new Properties()
+properties.load(project.rootProject.file('local.properties').newDataInputStream())
+bintray {
+    user = properties.getProperty("bintray.user")
+    key = properties.getProperty("bintray.apikey")
+    configurations = ['archives']
+    pkg {
+        repo = "maven" // 发布到Maven库
+        name = libName // 发布到JCenter上的项目名字
+        websiteUrl = siteUrl
+        vcsUrl = gitUrl
+        licenses = ["Apache-2.0"]
+        publish = true
+    }
 }
