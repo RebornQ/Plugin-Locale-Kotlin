@@ -24,7 +24,7 @@ implementation 'androidx.preference:preference:1.1.0'
     -keep class com.mallotec.reb.languageplugin.** { *; }
     -dontwarn com.mallotec.reb.languageplugin.**
     ```
-4. 切换语言后调用示例：
+4. 切换语言调用示例：
 
     ```java
     // 切换语言的 Dialog
@@ -33,25 +33,17 @@ implementation 'androidx.preference:preference:1.1.0'
         val listDialog = AlertDialog.Builder(this)
         listDialog.setTitle(getString(R.string.please_select_language))
         listDialog.setItems(languages) { dialog, which ->
-            selectLanguage(which)
+            // 应用切换的语言
+            LocaleManageUtil.applyLanguage(this, which.toString())
             dialog.dismiss()
         }
         listDialog.show()
     }
-    private fun selectLanguage(select: Int) {
-        // 保存选择的语言标记到 SharePreferences 中，并刷新 ApplicationContext
-        LocaleManageUtil.saveSelectLanguage(select.toString())
-        // recreate() 刷新 Resources
-        ActivityUtil.recreateActivity(this)
-    }
     ```
-    其中主要是调用以下两句：
+    其中主要是调用以下一句：
 
     ```java
-    // 保存选择的语言标记到 SharePreferences 中，并刷新 ApplicationContext
-    LocaleManageUtil.saveSelectLanguage(select.toString())
-    //  recreate() 刷新 Resources
-    ActivityUtil.recreateActivity(this)
+    LocaleManageUtil.applyLanguage(this, which.toString())
     ```
    
 

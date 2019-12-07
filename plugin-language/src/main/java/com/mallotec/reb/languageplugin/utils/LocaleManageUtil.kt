@@ -30,13 +30,6 @@ object LocaleManageUtil {
         }
     }
 
-    fun saveSelectLanguage(select: String) {
-        // 需要先保存选择的语言，否则更新 application 的语言配置时，拿到的还是上次配置的语言
-        DefaultSPHelper.language = select
-        // recreate() 后只在 BaseActivity#attachBaseContext() 更新 Context，不更新 ApplicationContext，因此要手动更新
-        updateApplicationContext(BaseApplication.instance)
-    }
-
     fun getSelectLanguageString(context: Context): String {
         return when (DefaultSPHelper.language) {
             "0" -> context.getString(R.string.text_language_auto)
@@ -94,10 +87,11 @@ object LocaleManageUtil {
     }
 
     @TargetApi(Build.VERSION_CODES.N)
-    fun getSystemLocale(): Locale {
+    private fun getSystemLocale(): Locale {
         return LocaleList.getDefault().get(0)
     }
 
+    // 只有第一次存下来的 Locale 才是正确的系统语言，后面 LocaleList 会随着切换语言变动导致 getSystemLocale() 获取的不再是系统语言
     fun cacheSystemLocale() {
         val locale: Locale = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             getSystemLocale()
@@ -107,10 +101,29 @@ object LocaleManageUtil {
         currentSystemLocale = locale
     }
 
+    // 因此若要获取系统语言只能拿已缓存下来的 Locale
+    fun getCurrentSystemLocale(): Locale {
+        return currentSystemLocale
+    }
+
     fun onConfigurationChanged(context: Context) {
         cacheSystemLocale()
         updateContext(context)
         updateApplicationContext(context)
+    }
+
+    fun applyLanguage(context: Context, select: String) {
+        // 需要先保存选择的语言，否则更新 application 的语言配置时，拿到的还是上次配置的语言
+        DefaultSPHelper.language = select
+        // recreate() 后只在 BaseActivity#attachBaseContext() 更新 Context，不更新 ApplicationContext，因此要手动更新
+        updateApplicationContext(BaseApplication.instance)
+
+        // 使用 EventBus 可以实现不重启到 LauncherActivity 只需 recreate() 即可刷新 Context 的 Resources
+//        EventBus.getDefault().post(Constant.EVENT_RECREATE_ACTIVITY)
+        // 使用广播也可以实现不重启到 LauncherActivity 只需 recreate() 即可刷新 Context 的 Resources
+        ActivityUtil.recreateActivity(context)
+        // 重启到 LauncherActivity 刷新 Context 的 Resources
+//        ActivityUtil.toRestartLauncherActivity(context)
     }
 
     // 输出当前context使用的语言，仅调试用

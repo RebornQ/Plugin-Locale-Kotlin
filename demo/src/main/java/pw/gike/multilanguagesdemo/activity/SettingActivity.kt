@@ -45,22 +45,10 @@ class SettingActivity : BaseAppCompactActivity() {
         val listDialog = AlertDialog.Builder(this)
         listDialog.setTitle(getString(R.string.please_select_language))
         listDialog.setItems(languages) { dialog, which ->
-            selectLanguage(which)
+            // 应用切换的语言
+            LocaleManageUtil.applyLanguage(this, which.toString())
             dialog.dismiss()
         }
         listDialog.show()
-    }
-
-    private fun selectLanguage(select: Int) {
-        // 保存选择的语言标记到 SharePreferences 中，并刷新 ApplicationContext
-        LocaleManageUtil.saveSelectLanguage(select.toString())
-
-        // 使用 EventBus 可以实现不重启到 LauncherActivity 只需 recreate() 即可刷新 Resources
-//        EventBus.getDefault().post(Constant.EVENT_RECREATE_ACTIVITY)
-
-        // 使用广播也可以实现不重启到 LauncherActivity 只需 recreate() 即可刷新 Resources
-        ActivityUtil.recreateActivity(this)
-
-//        LocaleManageUtil.toRestartLauncherActivity(this)
     }
 }

@@ -66,7 +66,7 @@ class MainActivity : BaseAppCompactActivity() {
         tvAppName.text = App.instance.getString(R.string.app_name_label, getApplicationName())
         val string = getString(
             R.string.system_language,
-            LocaleManageUtil.getSystemLocale().displayLanguage
+            LocaleManageUtil.getCurrentSystemLocale().displayLanguage
         )
         tvSystemLanguage.text = string
         tvUserSelectLanguage.text = getString(
