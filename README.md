@@ -56,27 +56,18 @@ fun toRestartLauncherActivity(context: Context) {
 const val ACTION_RECREATE_ACTIVITY = "android.action.RECREATE_ACTIVITY"
 ```
 
-因为要在`BroadcastReceiver`中调用`Activity`的方法，所以要传入`Activity`的引用，这里我使用了回调的方法：
+因为要在`BroadcastReceiver`中调用`Activity`的方法，所以要传入`Activity`的引用，直接在构造方法传入参数即可。~~这里我使用了回调的方法：(傻逼了，用回调绕了一大个圈，半夜脑子不好使乱写代码...)~~
 
+然后`BaseActivity`~~实现这个接口~~，实现`BroadcastReceiver`，`onReceive()`方法中调用`recreate()`，再在`onCreate()`中动态注册`BroadcastReceiver`：
 ```java
-interface OnGetActivityListener {
-        fun getActivity() : BaseActivity
-}
-```
+abstract class BaseActivity : AppCompatActivity() {
 
-然后`BaseActivity`实现这个接口，实现`BroadcastReceiver`，`onReceive()`方法中调用`recreate()`，再在`onCreate()`中动态注册`BroadcastReceiver`：
-```java
-abstract class BaseActivity : AppCompatActivity() , OnGetActivityListener {
-
-    class RecreateActivityBroadcastReceiver : BroadcastReceiver() {
-        private var myOnGetActivityListener : OnGetActivityListener? = null
+    class RecreateActivityBroadcastReceiver(private var cont: Context?) : BroadcastReceiver() {
 
         override fun onReceive(context: Context?, intent: Intent?) {
-            myOnGetActivityListener?.getActivity()?.recreate()
-        }
-
-        public fun setOnGetActivityListener(onGetActivityListener: OnGetActivityListener) {
-            myOnGetActivityListener = onGetActivityListener
+            if (cont is BaseActivity) {
+                (cont as BaseActivity).recreate()
+            }
         }
     }
 
@@ -88,18 +79,13 @@ abstract class BaseActivity : AppCompatActivity() , OnGetActivityListener {
         // 使用广播也可以实现不重启到 LauncherActivity 只需 recreate() 即可刷新 Resources
         intentFilter = IntentFilter()
         intentFilter!!.addAction(Constant.ACTION_RECREATE_ACTIVITY)
-        recreateActivityBroadcastReceiver = RecreateActivityBroadcastReceiver()
-        recreateActivityBroadcastReceiver!!.setOnGetActivityListener(this)
+        recreateActivityBroadcastReceiver = RecreateActivityBroadcastReceiver(this)
         registerReceiver(recreateActivityBroadcastReceiver, intentFilter)
     }
 
     override fun onDestroy() {
         super.onDestroy()
         unregisterReceiver(recreateActivityBroadcastReceiver)
-    }
-
-    override fun getActivity(): BaseActivity {
-        return this
     }
 }
 ```

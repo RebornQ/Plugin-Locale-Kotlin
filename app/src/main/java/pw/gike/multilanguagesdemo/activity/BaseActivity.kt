@@ -8,21 +8,17 @@ import android.content.res.Configuration
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import pw.gike.multilanguagesdemo.Constant
-import pw.gike.multilanguagesdemo.interfaces.OnGetActivityListener
 import pw.gike.multilanguagesdemo.utils.LocaleManageUtil
 
 
-abstract class BaseActivity : AppCompatActivity() , OnGetActivityListener {
+abstract class BaseActivity : AppCompatActivity() {
 
-    class RecreateActivityBroadcastReceiver : BroadcastReceiver() {
-        private var myOnGetActivityListener : OnGetActivityListener? = null
+    class RecreateActivityBroadcastReceiver(private var cont: Context?) : BroadcastReceiver() {
 
         override fun onReceive(context: Context?, intent: Intent?) {
-            myOnGetActivityListener?.getActivity()?.recreate()
-        }
-
-        public fun setOnGetActivityListener(onGetActivityListener: OnGetActivityListener) {
-            myOnGetActivityListener = onGetActivityListener
+            if (cont is BaseActivity) {
+                (cont as BaseActivity).recreate()
+            }
         }
     }
 
@@ -41,8 +37,7 @@ abstract class BaseActivity : AppCompatActivity() , OnGetActivityListener {
         // 使用广播也可以实现不重启到 LauncherActivity 只需 recreate() 即可刷新 Resources
         intentFilter = IntentFilter()
         intentFilter!!.addAction(Constant.ACTION_RECREATE_ACTIVITY)
-        recreateActivityBroadcastReceiver = RecreateActivityBroadcastReceiver()
-        recreateActivityBroadcastReceiver!!.setOnGetActivityListener(this)
+        recreateActivityBroadcastReceiver = RecreateActivityBroadcastReceiver(this)
         registerReceiver(recreateActivityBroadcastReceiver, intentFilter)
     }
 
@@ -67,9 +62,5 @@ abstract class BaseActivity : AppCompatActivity() , OnGetActivityListener {
         super.onDestroy()
 //        EventBus.getDefault().unregister(this)
         unregisterReceiver(recreateActivityBroadcastReceiver)
-    }
-
-    override fun getActivity(): BaseActivity {
-        return this
     }
 }
