@@ -52,7 +52,9 @@ class SettingActivity : BaseAppCompactActivity() {
     }
 
     private fun selectLanguage(select: Int) {
+        // 保存选择的语言标记到 SharePreferences 中，并刷新 ApplicationContext
         LocaleManageUtil.saveSelectLanguage(select.toString())
+
         // 使用 EventBus 可以实现不重启到 LauncherActivity 只需 recreate() 即可刷新 Resources
 //        EventBus.getDefault().post(Constant.EVENT_RECREATE_ACTIVITY)
 

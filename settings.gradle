@@ -1,1 +1,1 @@
-include ':app', ':plugin-language'
+include ':demo', ':plugin-language'
