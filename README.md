@@ -39,6 +39,7 @@ implementation 'androidx.preference:preference:1.1.0'
         listDialog.show()
     }
     private fun selectLanguage(select: Int) {
+        // 保存选择的语言标记到 SharePreferences 中，并刷新 ApplicationContext
         LocaleManageUtil.saveSelectLanguage(select.toString())
         // recreate() 刷新 Resources
         ActivityUtil.recreateActivity(this)
@@ -47,6 +48,7 @@ implementation 'androidx.preference:preference:1.1.0'
     其中主要是调用以下两句：
 
     ```java
+    // 保存选择的语言标记到 SharePreferences 中，并刷新 ApplicationContext
     LocaleManageUtil.saveSelectLanguage(select.toString())
     //  recreate() 刷新 Resources
     ActivityUtil.recreateActivity(this)
