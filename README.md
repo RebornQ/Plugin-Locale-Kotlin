@@ -23,7 +23,11 @@ override fun applyOverrideConfiguration(overrideConfiguration: Configuration?) {
 设置语言后是需要重新启动一遍 Activity 配置才能生效的（切换使用新的 Configuration 重新渲染对应语言环境），这里整理了几种方法。
 #### 方法一：重启 Activity 到启动页
 这种是最经典最容易实现的方法：清空栈内所有 Activity 并启动到 LauncherActivity
+##### 效果图
+先上效果图：
+![MultiLanguageDemo-RestartToLaunche](/media/MultiLanguageDemo-RestartToLauncher.gif)
 
+##### 实现
 ```java
 /**
  * 跳转主页
@@ -42,8 +46,11 @@ fun toRestartLauncherActivity(context: Context) {
 
 #### 方法二：直接重启当前 Activity 并通知其他 Activity 也重新渲染
 核心方法是`Activity`的`recreate()`方法，可以重新渲染对应语言环境的界面。
-
+##### 效果图
+先上效果图：
+![MultiLanguageDemo-NoRestartToLaunche](/media/MultiLanguageDemo-NoRestartToLauncher.gif)
 ##### 1. 原生广播实现
+
 `Constant.kt`中：
 ```java
 const val ACTION_RECREATE_ACTIVITY = "android.action.RECREATE_ACTIVITY"
