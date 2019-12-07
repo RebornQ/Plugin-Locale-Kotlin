@@ -1,9 +1,9 @@
-# MultiLanguagesDemo-Kotlin
-An android demo with kotlin for changing multi-language. Thanks [@MichaelJokAr](https://github.com/MichaelJokAr).
+# Plugin-Language-Kotlin
+An android plugin with kotlin for changing multi-language. Thanks [@MichaelJokAr](https://github.com/MichaelJokAr).
 
-一个Kotlin版多语言切换的Android demo。感谢[@MichaelJokAr](https://github.com/MichaelJokAr)的教程——[Android国际化(多语言)实现，支持8.0](https://blog.csdn.net/a1018875550/article/details/79845949)。
+一个 Kotlin 版多语言切换的 Android 插件。感谢[@MichaelJokAr](https://github.com/MichaelJokAr)的教程——[Android国际化(多语言)实现，支持8.0](https://blog.csdn.net/a1018875550/article/details/79845949)。
 
-## plugin-language 使用文档
+## 使用文档
 ### 引入依赖
 ```java
 implementation 'com.mallotec.reb:plugin-language:1.0.0'
