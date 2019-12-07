@@ -24,11 +24,11 @@ android {
     }
 }
 
-repositories{
-    flatDir {
-        dirs 'libs'
-    }
-}
+//repositories{
+//    flatDir {
+//        dirs 'libs'
+//    }
+//}
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
@@ -44,8 +44,8 @@ dependencies {
     implementation 'org.greenrobot:eventbus:3.1.1'
     // LanguagePlugin
 //    implementation project(':plugin-language')
-    implementation(name: 'plugin-language', ext: 'aar')
-//    implementation 'com.mallotec.reb:plugin-language:1.0.0'
+//    implementation(name: 'plugin-language', ext: 'aar')
+    implementation 'com.mallotec.reb:plugin-language:1.0.0'
     // preference
     implementation 'androidx.preference:preference:1.1.0'
 }
