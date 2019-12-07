@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Common</string>
+    <string name="text_language_auto">Auto</string>
+    <string name="text_language_en">English</string>
+    <string name="text_language_zh">Chinese</string>
+</resources>

@@ -30,3 +30,7 @@
 #-keepclassmembers class * extends org.greenrobot.eventbus.util.ThrowableFailureEvent {
 #    <init>(java.lang.Throwable);
 #}
+
+# LanguagePlugin 混淆规则
+-keep class com.mallotec.reb.languageplugin.** { *; }
+-dontwarn com.mallotec.reb.languageplugin.**

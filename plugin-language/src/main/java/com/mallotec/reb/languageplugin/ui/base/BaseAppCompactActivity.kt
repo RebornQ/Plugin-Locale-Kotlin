@@ -1,4 +1,4 @@
-package pw.gike.multilanguagesdemo.activity
+package com.mallotec.reb.languageplugin.ui.base
 
 import android.content.BroadcastReceiver
 import android.content.Context
@@ -7,17 +7,17 @@ import android.content.IntentFilter
 import android.content.res.Configuration
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import pw.gike.multilanguagesdemo.Constant
-import pw.gike.multilanguagesdemo.utils.LocaleManageUtil
+import com.mallotec.reb.languageplugin.Constant
+import com.mallotec.reb.languageplugin.utils.LocaleManageUtil
 
 
-abstract class BaseActivity : AppCompatActivity() {
+abstract class BaseAppCompactActivity : AppCompatActivity() {
 
     class RecreateActivityBroadcastReceiver(private var cont: Context?) : BroadcastReceiver() {
 
         override fun onReceive(context: Context?, intent: Intent?) {
-            if (cont is BaseActivity) {
-                (cont as BaseActivity).recreate()
+            if (cont is BaseAppCompactActivity) {
+                (cont as BaseAppCompactActivity).recreate()
             }
         }
     }
@@ -44,7 +44,7 @@ abstract class BaseActivity : AppCompatActivity() {
     // 防止 Locale 被一个新的 Configuration 对象覆盖掉（AppCompat库1.1.0-alpha03以上版本）
     override fun applyOverrideConfiguration(overrideConfiguration: Configuration?) {
         if (overrideConfiguration != null) {
-            overrideConfiguration?.setLocale(LocaleManageUtil.getSetLocale(this))
+            overrideConfiguration?.setLocale(LocaleManageUtil.getSetLocale())
         }
         super.applyOverrideConfiguration(overrideConfiguration)
     }
