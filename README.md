@@ -3,6 +3,58 @@ An android demo with kotlin for changing multi-language. Thanks [@MichaelJokAr](
 
 一个Kotlin版多语言切换的Android demo。感谢[@MichaelJokAr](https://github.com/MichaelJokAr)的教程——[Android国际化(多语言)实现，支持8.0](https://blog.csdn.net/a1018875550/article/details/79845949)。
 
+## plugin-language 使用文档
+### 引入依赖
+```java
+implementation 'com.mallotec.reb:plugin-language:1.0.0'
+```
+由于本插件还用了`androidx.preference`，因此需要引入`Preference`相关依赖
+```java
+// preference
+implementation 'androidx.preference:preference:1.1.0'
+```
+
+### 只需四步即可食用
+1. 自定义`Application`继承`BaseApplication`
+2. 所有`Activity`继承`BaseAppCompactActivity`
+3. 添加混淆规则
+
+    ```shell
+    # LanguagePlugin 混淆规则
+    -keep class com.mallotec.reb.languageplugin.** { *; }
+    -dontwarn com.mallotec.reb.languageplugin.**
+    ```
+4. 切换语言后调用示例：
+
+    ```java
+    // 切换语言的 Dialog
+    private fun listLanguageDialog() {
+        val languages = arrayOf(getString(R.string.text_language_auto), getString(R.string.text_language_zh), getString(R.string.text_language_en))
+        val listDialog = AlertDialog.Builder(this)
+        listDialog.setTitle(getString(R.string.please_select_language))
+        listDialog.setItems(languages) { dialog, which ->
+            selectLanguage(which)
+            dialog.dismiss()
+        }
+        listDialog.show()
+    }
+    private fun selectLanguage(select: Int) {
+        // 保存选择的语言标记到 SharePreferences 中，并刷新 ApplicationContext
+        LocaleManageUtil.saveSelectLanguage(select.toString())
+        // recreate() 刷新 Resources
+        ActivityUtil.recreateActivity(this)
+    }
+    ```
+    其中主要是调用以下两句：
+
+    ```java
+    // 保存选择的语言标记到 SharePreferences 中，并刷新 ApplicationContext
+    LocaleManageUtil.saveSelectLanguage(select.toString())
+    //  recreate() 刷新 Resources
+    ActivityUtil.recreateActivity(this)
+    ```
+   
+
 ## 多语言实现中常见问题的解决方法
 ### AndroidX AppCompat 库 1.1.0-alpha03 以上版本导致的 Locale 被一个新的 Configuration 对象覆盖掉
 仅写出解决方法，本demo经测试无法复现问题
