@@ -45,4 +45,7 @@ dependencies {
     // LanguagePlugin
 //    implementation project(':plugin-language')
     implementation(name: 'plugin-language', ext: 'aar')
+//    implementation 'com.mallotec.reb:plugin-language:1.0.0'
+    // preference
+    implementation 'androidx.preference:preference:1.1.0'
 }
