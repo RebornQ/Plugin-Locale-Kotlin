@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
-import com.mallotec.reb.languageplugin.utils.ActivityUtil
 import com.mallotec.reb.languageplugin.ui.base.BaseAppCompactActivity
 import com.mallotec.reb.languageplugin.utils.LocaleManageUtil
 import pw.gike.multilanguagesdemo.R
@@ -41,12 +40,12 @@ class SettingActivity : BaseAppCompactActivity() {
     }
 
     private fun listLanguageDialog() {
-        val languages = arrayOf(getString(R.string.text_language_auto), getString(R.string.text_language_zh), getString(R.string.text_language_en))
+        val languages = resources.getStringArray(R.array.language_titles)
         val listDialog = AlertDialog.Builder(this)
         listDialog.setTitle(getString(R.string.please_select_language))
         listDialog.setItems(languages) { dialog, which ->
             // 应用切换的语言
-            LocaleManageUtil.applyLanguage(this, which.toString())
+            LocaleManageUtil.applyLanguage(this, resources.getStringArray(R.array.language_values)[which])
             dialog.dismiss()
         }
         listDialog.show()

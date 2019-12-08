@@ -2,8 +2,9 @@
     <string name="app_name">多语言Demo-Kotlin版</string>
     <string name="text_language">语言</string>
     <string name="text_language_auto">跟随系统</string>
+    <string name="text_language_en">English</string>
     <string name="text_language_zh">简体中文</string>
-    <string name="text_language_en">英文</string>
+    <string name="text_language_zh_rTW">繁體中文</string>
     <string name="settings">设置</string>
     <string name="app_name_label">App应用名：%s</string>
     <string name="system_language">当前系统语言：%1$s</string>
@@ -18,13 +19,15 @@
 
     <string-array name="language_titles">
         <item>跟随系统</item>
+        <item>English</item>
         <item>简体中文</item>
-        <item>英文</item>
+        <item>繁體中文</item>
     </string-array>
     <string-array name="language_values">
-        <item>auto</item>
-        <item>zh_CN</item>
-        <item>en</item>
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
     </string-array>
 
     <string name="fragment_string">Fragment String 测试成功！</string>

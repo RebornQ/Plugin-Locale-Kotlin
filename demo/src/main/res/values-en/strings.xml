@@ -1,20 +1,23 @@
 <resources>
     <string name="app_name">MultiLanguagesDemo-Kotlin</string>
     <string name="text_language">Language</string>
-    <string name="text_language_en">English</string>
     <string name="text_language_auto">Auto</string>
-    <string name="text_language_zh">Chinese(Simplified)</string>
+    <string name="text_language_en">English</string>
+    <string name="text_language_zh">简体中文</string>
+    <string name="text_language_zh_rTW">繁體中文</string>
     <string name="settings">Settings</string>
 
     <string-array name="language_titles">
         <item>Auto</item>
-        <item>Chinese(Simplified)</item>
         <item>English</item>
+        <item>简体中文</item>
+        <item>繁體中文</item>
     </string-array>
     <string-array name="language_values">
-        <item>auto</item>
-        <item>zh_CN</item>
-        <item>en</item>
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
     </string-array>
     <string name="system_language">Current system language: %1$s</string>
     <string name="user_select_language">Current user selects language: %s</string>

@@ -3,7 +3,11 @@
 
 An android plugin with kotlin for changing multi-language.
 
-一个 Kotlin 版多语言切换的 Android 插件。
+Only support `English/Simplified Chinese/Traditional Chinese`, but you can submit issues or contact to me if you need other languages.
+
+一个用 Kotlin 写的多语言切换的 Android 插件。
+
+目前只支持`英文/简中/繁中`三种语言，需要添加其他的语言可以提交issue。
 
 ## 背景
 项目历经9个月的演化，终于从一开始为宝可梦的那样记账研究的语言切换而写的`Demo`进化成第三方库。

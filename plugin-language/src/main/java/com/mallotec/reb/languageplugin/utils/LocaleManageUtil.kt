@@ -24,18 +24,20 @@ object LocaleManageUtil {
     fun getSetLocale(): Locale {
         return when (DefaultSPHelper.language) {
             "0" -> currentSystemLocale
-            "1" -> Locale.SIMPLIFIED_CHINESE
-            "2" -> Locale.ENGLISH
+            "1" -> Locale.ENGLISH
+            "2" -> Locale.SIMPLIFIED_CHINESE
+            "3" -> Locale.TRADITIONAL_CHINESE
             else -> Locale.SIMPLIFIED_CHINESE
         }
     }
 
     fun getSelectLanguageString(context: Context): String {
         return when (DefaultSPHelper.language) {
-            "0" -> context.getString(R.string.text_language_auto)
-            "1" -> context.getString(R.string.text_language_zh)
-            "2" -> context.getString(R.string.text_language_en)
-            else -> context.getString(R.string.text_language_zh)
+            "0" -> context.resources.getStringArray(R.array.language_titles)[0]
+            "1" -> context.resources.getStringArray(R.array.language_titles)[1]
+            "2" -> context.resources.getStringArray(R.array.language_titles)[2]
+            "3" -> context.resources.getStringArray(R.array.language_titles)[3]
+            else -> context.resources.getStringArray(R.array.language_titles)[3]
         }
     }
     
