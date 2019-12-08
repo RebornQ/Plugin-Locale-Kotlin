@@ -5,13 +5,13 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
-import com.mallotec.reb.languageplugin.ui.base.BaseAppCompactActivity
+import com.mallotec.reb.languageplugin.ui.base.BaseAppCompatActivity
 import com.mallotec.reb.languageplugin.utils.LocaleManageUtil
 import pw.gike.multilanguagesdemo.R
 
 
 // 此处不能继承AppCompatActivity，否则无法通过attachBaseContext()刷新语言
-class SettingActivity : BaseAppCompactActivity() {
+class SettingActivity : BaseAppCompatActivity() {
 
     private lateinit var tvSelectLanguage : TextView
 

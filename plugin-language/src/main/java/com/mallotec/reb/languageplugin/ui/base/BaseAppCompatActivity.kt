@@ -11,13 +11,13 @@ import com.mallotec.reb.languageplugin.Constant
 import com.mallotec.reb.languageplugin.utils.LocaleManageUtil
 
 
-abstract class BaseAppCompactActivity : AppCompatActivity() {
+abstract class BaseAppCompatActivity : AppCompatActivity() {
 
     class RecreateActivityBroadcastReceiver(private var cont: Context?) : BroadcastReceiver() {
 
         override fun onReceive(context: Context?, intent: Intent?) {
-            if (cont is BaseAppCompactActivity) {
-                (cont as BaseAppCompactActivity).recreate()
+            if (cont is BaseAppCompatActivity) {
+                (cont as BaseAppCompatActivity).recreate()
             }
         }
     }
