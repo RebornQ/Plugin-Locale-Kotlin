@@ -16,6 +16,7 @@ Only support `English/Simplified Chinese/Traditional Chinese`, but you can submi
 
 ## 使用文档
 ### 引入依赖
+#### plugin-language
 **（可选）项目的 build.gradle 中加入：**
 ```java
 allprojects {
@@ -32,23 +33,33 @@ implementation 'com.mallotec.reb:plugin-language:{last-version}'
 ```
 > **注意：`{last-version}`要替换为最新版本号**，最新版本链接：[https://bintray.com/rebornq/maven/plugin-language/_latestVersion](https://bintray.com/rebornq/maven/plugin-language/_latestVersion)
 
+#### Preference
 由于本插件还用了`androidx.preference`，因此需要引入`Preference`相关依赖
 ```java
 // preference
 implementation 'androidx.preference:preference:1.1.0'
 ```
 
-### 只需四步即可食用
-1. 自定义`Application`继承`BaseApplication`
-2. 所有`Activity`继承`BaseAppCompactActivity`
-3. 添加混淆规则
+#### About（可选）
+如果有用到 drakeet 的`about-page`库，则需要加入以下依赖
+```java
+// about
+implementation 'com.drakeet.about:about:2.3.1'
+implementation 'com.drakeet.about:about-extension:2.3.1'
+```
 
-    ```shell
-    # LanguagePlugin 混淆规则
-    -keep class com.mallotec.reb.languageplugin.** { *; }
-    -dontwarn com.mallotec.reb.languageplugin.**
-    ```
-4. 一句代码调用切换语言：
+### 添加混淆规则
+
+```shell
+# LanguagePlugin 混淆规则
+-keep class com.mallotec.reb.languageplugin.** { *; }
+-dontwarn com.mallotec.reb.languageplugin.**
+```
+    
+### 只需三步即可食用
+1. 自定义`Application`继承`BaseApplication`
+2. 所有`Activity`继承`BaseAppCompactActivity`，需要用 drakeet 的`AbsAboutActivity`则继承`BaseAbsAboutActivity`，更多的请查看下方支持库列表
+3. 一句代码调用切换语言：
 
     ```java
     // 应用切换的语言
@@ -74,6 +85,10 @@ implementation 'androidx.preference:preference:1.1.0'
 ![MultiLanguageDemo-NoRestartToLaunche](/media/MultiLanguageDemo-NoRestartToLauncher.gif)
 
 更多请查看本项目的 [Demo](https://github.com/RebornQ/Plugin-Language-Kotlin/tree/master/demo)
+
+### 支持的 Activity 库列表
+- 官方的 [AppCompactActivity](https://developer.android.com/jetpack/androidx/releases/appcompat)
+- drakeet 的 [AbsAboutActivity](https://github.com/PureWriter/about-page)
 
 ## 写在最后
 欢迎大家 Star、Fork 和提 Issue 提 PR 呀～
