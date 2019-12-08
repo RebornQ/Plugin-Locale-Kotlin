@@ -1,2 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-        package="com.mallotec.reb.languageplugin" />
+        xmlns:tools="http://schemas.android.com/tools"
+        package="com.mallotec.reb.languageplugin">
+    <uses-sdk tools:overrideLibrary="com.mallotec.reb.languageplugin" />
+</manifest>
