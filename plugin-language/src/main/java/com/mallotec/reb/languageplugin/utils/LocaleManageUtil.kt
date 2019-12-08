@@ -2,6 +2,7 @@ package com.mallotec.reb.languageplugin.utils
 
 import android.annotation.TargetApi
 import android.content.Context
+import android.content.Intent
 import android.content.res.Configuration
 import android.os.Build
 import android.os.LocaleList
@@ -114,18 +115,24 @@ object LocaleManageUtil {
         updateApplicationContext(context)
     }
 
-    fun applyLanguage(context: Context, select: String) {
+    fun language(selectLanguage: String) : LocaleManageUtil {
         // 需要先保存选择的语言，否则更新 application 的语言配置时，拿到的还是上次配置的语言
-        DefaultSPHelper.language = select
+        DefaultSPHelper.language = selectLanguage
         // recreate() 后只在 BaseActivity#attachBaseContext() 更新 Context，不更新 ApplicationContext，因此要手动更新
         updateApplicationContext(BaseApplication.instance)
+        return this
+    }
 
+    fun apply(context: Context) {
         // 使用 EventBus 可以实现不重启到 LauncherActivity 只需 recreate() 即可刷新 Context 的 Resources
 //        EventBus.getDefault().post(Constant.EVENT_RECREATE_ACTIVITY)
         // 使用广播也可以实现不重启到 LauncherActivity 只需 recreate() 即可刷新 Context 的 Resources
         ActivityUtil.recreateActivity(context)
+    }
+
+    fun apply(context: Context, intent: Intent?) {
         // 重启到 LauncherActivity 刷新 Context 的 Resources
-//        ActivityUtil.toRestartLauncherActivity(context)
+        ActivityUtil.openWithClearTask(context, intent)
     }
 
     // 输出当前context使用的语言，仅调试用

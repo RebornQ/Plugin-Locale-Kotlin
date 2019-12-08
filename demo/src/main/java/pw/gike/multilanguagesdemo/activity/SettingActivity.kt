@@ -45,7 +45,10 @@ class SettingActivity : BaseAppCompactActivity() {
         listDialog.setTitle(getString(R.string.please_select_language))
         listDialog.setItems(languages) { dialog, which ->
             // 应用切换的语言
-            LocaleManageUtil.applyLanguage(this, resources.getStringArray(R.array.language_values)[which])
+//            val intent = Intent(this, MainActivity::class.java)
+            LocaleManageUtil
+                .language(resources.getStringArray(R.array.language_values)[which])
+                .apply(this)
             dialog.dismiss()
         }
         listDialog.show()

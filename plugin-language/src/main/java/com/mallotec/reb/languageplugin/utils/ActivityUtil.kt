@@ -2,7 +2,6 @@ package com.mallotec.reb.languageplugin.utils
 
 import android.content.Context
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import com.mallotec.reb.languageplugin.Constant
 
 /**
@@ -14,11 +13,10 @@ object ActivityUtil {
      * 跳转主页
      *
      * @param context
-     * @param targetActivity
+     * @param intent
      */
-    fun toRestartLauncherActivity(context: Context, targetActivity: AppCompatActivity) {
-        val intent = Intent(context, targetActivity::class.java)
-        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+    fun openWithClearTask(context: Context, intent: Intent?) {
+        intent!!.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
         context.startActivity(intent)
         // 杀掉进程，如果是跨进程则杀掉当前进程
 //        android.os.Process.killProcess(android.os.Process.myPid())

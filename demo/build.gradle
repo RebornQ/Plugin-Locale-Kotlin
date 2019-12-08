@@ -43,9 +43,9 @@ dependencies {
     // EventBus
     implementation 'org.greenrobot:eventbus:3.1.1'
     // LanguagePlugin
-//    implementation project(':plugin-language')
+    implementation project(':plugin-language')
 //    implementation(name: 'plugin-language', ext: 'aar')
-    implementation 'com.mallotec.reb:plugin-language:1.0.2'
+//    implementation 'com.mallotec.reb:plugin-language:1.0.2'
     // preference
     implementation 'androidx.preference:preference:1.1.0'
 }

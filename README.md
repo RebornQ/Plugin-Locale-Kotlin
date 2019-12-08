@@ -52,9 +52,11 @@ implementation 'androidx.preference:preference:1.1.0'
 
     ```java
     // 应用切换的语言
-    LocaleManageUtil.applyLanguage(this, which.toString())
+    LocaleManageUtil
+        .language(which.toString())
+        .apply(this)
     ```
-   **注意：这里的`this`必须是`Activity`的`Context`，`which`是所选的语言标记**
+   **注意：这里的`this`必须是当前`Activity`的`Context`；`which`是所选的语言标记，详情请看下方注意事项的对应关系**
 
 ### 注意事项
 `SharePreferences`中`language`字段的`value`与 App 语言的对应关系：
