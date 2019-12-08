@@ -7,7 +7,7 @@ Only support `English/Simplified Chinese/Traditional Chinese`, but you can submi
 
 一个用 Kotlin 写的多语言切换的 Android 插件。
 
-目前只支持`英文/简中/繁中`三种语言，需要添加其他的语言可以提交issue。
+目前只支持`英文/简中/繁中`三种语言，需要添加其他的语言可以提交 issue 或者直接联系我。
 
 ## 背景
 项目历经9个月的演化，终于从一开始为宝可梦的那样记账研究的语言切换而写的`Demo`进化成第三方库。
@@ -55,6 +55,16 @@ implementation 'androidx.preference:preference:1.1.0'
     LocaleManageUtil.applyLanguage(this, which.toString())
     ```
    **注意：这里的`this`必须是`Activity`的`Context`，`which`是所选的语言标记**
+
+### 注意事项
+`SharePreferences`中`language`字段的`value`与 App 语言的对应关系：
+
+```java
+"0" -> 跟随系统
+"1" -> English
+"2" -> 简体中文
+"3" -> 繁体中文
+```
 
 ### Demo
 效果图：
