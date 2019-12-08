@@ -3,7 +3,7 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 
 // 版本号，下次更新是只需要更改版本号即可
-version = "1.0.3"
+version = "1.0.4"
 
 android {
     compileSdkVersion 29
@@ -42,6 +42,8 @@ dependencies {
     // about
     implementation 'com.drakeet.about:about:2.3.1'
     implementation 'com.drakeet.about:about-extension:2.3.1'
+    // multitype
+    implementation 'com.drakeet.multitype:multitype:4.0.0'
     // EventBus
 //    implementation 'org.greenrobot:eventbus:3.1.1'
 }
