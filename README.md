@@ -35,13 +35,6 @@ implementation 'com.mallotec.reb:plugin-locale:{last-version}'
 ```
 > **注意：`{last-version}`要替换为最新版本号**，最新版本链接：[https://bintray.com/rebornq/maven/plugin-locale/_latestVersion](https://bintray.com/rebornq/maven/plugin-locale/_latestVersion)
 
-#### Preference
-由于本插件还用了`androidx.preference`，因此需要引入`Preference`相关依赖
-```java
-// preference
-implementation 'androidx.preference:preference:1.1.0'
-```
-
 ### 添加混淆规则(可选)
 
 ```shell
