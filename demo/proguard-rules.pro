@@ -31,6 +31,6 @@
 #    <init>(java.lang.Throwable);
 #}
 
-# LanguagePlugin 混淆规则
--keep class com.mallotec.reb.languageplugin.** { *; }
--dontwarn com.mallotec.reb.languageplugin.**
+# LocalePlugin 混淆规则
+-keep class com.mallotec.reb.localeplugin.** { *; }
+-dontwarn com.mallotec.reb.localeplugin.**

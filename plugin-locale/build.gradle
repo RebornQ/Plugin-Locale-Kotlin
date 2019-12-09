@@ -8,7 +8,7 @@ version = "1.0.5"
 android {
     compileSdkVersion 29
     buildToolsVersion "29.0.2"
-    resourcePrefix "plugin-language" // 随意命名
+    resourcePrefix "plugin-locale" // 随意命名
     defaultConfig {
         minSdkVersion 21
         targetSdkVersion 29
@@ -49,11 +49,11 @@ apply plugin: 'com.jfrog.bintray'
 // 发布到组织名称名字，必须填写
 group = "com.mallotec.reb"
 // 发布到JCenter上的项目名字，必须填写
-def libName = "plugin-language"
-/**  上面配置后上传至jcenter后的编译路径是这样的： compile 'com.mallotec.reb:plugin-language:1.0.0'  **/
+def libName = "plugin-locale"
+/**  上面配置后上传至jcenter后的编译路径是这样的： compile 'com.mallotec.reb:plugin-locale:1.0.0'  **/
 
-def siteUrl = 'https://github.com/RebornQ/MultiLanguagesDemo-Kotlin'    // Git项目主页
-def gitUrl = 'https://github.com/RebornQ/MultiLanguagesDemo-Kotlin.git' // Git仓库url
+def siteUrl = 'https://github.com/RebornQ/Plugin-Locale-Kotlin'    // Git项目主页
+def gitUrl = 'https://github.com/RebornQ/Plugin-Locale-Kotlin.git' // Git仓库url
 
 // 生成源文件
 task sourcesJar(type: Jar) {
@@ -83,7 +83,7 @@ install {
         pom {
             project {
                 packaging 'aar'
-                name 'Android Language Plugin' // 项目描述
+                name 'Android Locale Plugin' // 项目描述
                 url siteUrl
                 licenses {
                     license {

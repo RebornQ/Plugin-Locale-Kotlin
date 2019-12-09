@@ -1,5 +1,5 @@
-# Plugin-Language-Kotlin
-[![Releases](https://img.shields.io/badge/android-5.0%2B-brightgreen.svg)](https://bintray.com/rebornq/maven/plugin-language) [![Releases](https://img.shields.io/github/release/RebornQ/Plugin-Language-Kotlin.svg)](https://github.com/RebornQ/Plugin-Language-Kotlin) [ ![Download](https://api.bintray.com/packages/rebornq/maven/plugin-language/images/download.svg) ](https://bintray.com/rebornq/maven/plugin-language/_latestVersion)
+# Plugin-Locale-Kotlin
+[![Releases](https://img.shields.io/badge/android-5.0%2B-brightgreen.svg)](https://bintray.com/rebornq/maven/plugin-locale) [![Releases](https://img.shields.io/github/release/RebornQ/Plugin-Locale-Kotlin.svg)](https://github.com/RebornQ/Plugin-Locale-Kotlin) [ ![Download](https://api.bintray.com/packages/rebornq/maven/plugin-locale/images/download.svg) ](https://bintray.com/rebornq/maven/plugin-locale/_latestVersion)
 
 An android plugin with kotlin for changing multi-language.
 
@@ -16,7 +16,7 @@ Only support `English/Simplified Chinese/Traditional Chinese`, but you can submi
 
 ## 使用文档
 ### 引入依赖
-#### plugin-language
+#### plugin-locale
 **（可选）项目的 build.gradle 中加入：**
 > *当 JCenter 无法链接的时候可以尝试使用*
 
@@ -31,9 +31,9 @@ allprojects {
 
 **app.gradle 中加入：**
 ```java
-implementation 'com.mallotec.reb:plugin-language:{last-version}'
+implementation 'com.mallotec.reb:plugin-locale:{last-version}'
 ```
-> **注意：`{last-version}`要替换为最新版本号**，最新版本链接：[https://bintray.com/rebornq/maven/plugin-language/_latestVersion](https://bintray.com/rebornq/maven/plugin-language/_latestVersion)
+> **注意：`{last-version}`要替换为最新版本号**，最新版本链接：[https://bintray.com/rebornq/maven/plugin-locale/_latestVersion](https://bintray.com/rebornq/maven/plugin-locale/_latestVersion)
 
 #### Preference
 由于本插件还用了`androidx.preference`，因此需要引入`Preference`相关依赖
@@ -45,9 +45,9 @@ implementation 'androidx.preference:preference:1.1.0'
 ### 添加混淆规则(可选)
 
 ```shell
-# LanguagePlugin 混淆规则
--keep class com.mallotec.reb.languageplugin.** { *; }
--dontwarn com.mallotec.reb.languageplugin.**
+# LocalePlugin 混淆规则
+-keep class com.mallotec.reb.localeplugin.** { *; }
+-dontwarn com.mallotec.reb.localeplugin.**
 ```
     
 ### 只需三步即可食用
@@ -78,7 +78,7 @@ implementation 'androidx.preference:preference:1.1.0'
 
 ![MultiLanguageDemo-NoRestartToLaunche](/media/MultiLanguageDemo-NoRestartToLauncher.gif)
 
-更多请查看本项目的 [Demo](https://github.com/RebornQ/Plugin-Language-Kotlin/tree/master/demo)
+更多请查看本项目的 [Demo](https://github.com/RebornQ/Plugin-Locale-Kotlin/tree/master/demo)
 
 ### Activity 库适配指南
 我们知道，除了官方的 [AppCompatActivity](https://developer.android.com/jetpack/androidx/releases/appcompat) 外，还有一些优秀开发者写的`Activity`库，比如`drakeet`的 [AbsAboutActivity](https://github.com/PureWriter/about-page)。
