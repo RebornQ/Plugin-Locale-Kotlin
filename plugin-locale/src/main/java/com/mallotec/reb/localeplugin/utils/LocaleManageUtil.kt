@@ -43,10 +43,16 @@ object LocaleManageUtil {
     }
     
     fun updateContext(context: Context): Context {
-        return updateResources(context, getSetLocale())
+        val setLocale = getSetLocale()
+        return if (needUpdateLocale(context, setLocale)) {
+            updateResources(context, setLocale)
+        } else {
+            context
+        }
     }
 
     private fun updateResources(context: Context, locale: Locale): Context {
+        // 系统语言改变了，应用保持之前设置的语言
         Locale.setDefault(locale)
 
         var cont = context
@@ -90,23 +96,54 @@ object LocaleManageUtil {
     }
 
     @TargetApi(Build.VERSION_CODES.N)
-    private fun getSystemLocale(): Locale {
+    private fun getSystemLocaleN(): Locale {
         return LocaleList.getDefault().get(0)
+    }
+
+    fun getSystemLocale(): Locale {
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            getSystemLocaleN()
+        } else {
+            getSystemLocaleLegacy()
+        }
     }
 
     // 只有第一次存下来的 Locale 才是正确的系统语言，后面 LocaleList 会随着切换语言变动导致 getSystemLocale() 获取的不再是系统语言
     fun cacheSystemLocale() {
-        val locale: Locale = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            getSystemLocale()
-        } else {
-            getSystemLocaleLegacy()
-        }
-        currentSystemLocale = locale
+        currentSystemLocale = getSystemLocale()
     }
 
     // 因此若要获取系统语言只能拿已缓存下来的 Locale
     fun getCurrentSystemLocale(): Locale {
         return currentSystemLocale
+    }
+
+    private fun getAppLocaleLegacy(context: Context) : Locale {
+        return context.resources.configuration.locale
+    }
+
+    @TargetApi(Build.VERSION_CODES.N)
+    private fun getAppLocaleN(context: Context): Locale {
+        return context.resources.configuration.locales.get(0)
+    }
+
+    fun getCurrentAppLocale(context: Context): Locale {
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) { //7.0有多语言设置获取顶部的语言
+            getAppLocaleN(context)
+        } else {
+            getAppLocaleLegacy(context)
+        }
+    }
+
+    /**
+     * 判断需不需要更新
+     *
+     * @param context Context
+     * @param locale  New User Locale
+     * @return true / false
+     */
+    fun needUpdateLocale(context: Context, locale: Locale): Boolean {
+        return getCurrentAppLocale(context).isO3Country != locale.isO3Country
     }
 
     fun onConfigurationChanged(context: Context) {
