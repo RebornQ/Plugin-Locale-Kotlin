@@ -16,7 +16,8 @@
 
 package com.mallotec.reb.localeplugin
 
-import androidx.preference.PreferenceManager
+import com.mallotec.reb.localeplugin.utils.getSPValue
+import com.mallotec.reb.localeplugin.utils.saveSPValue
 
 /**
  * 默认 Preference
@@ -28,12 +29,12 @@ object LocaleDefaultSPHelper {
      * 语言
      */
     var language: String
-        get() = PreferenceManager.getDefaultSharedPreferences(BaseLocaleApplication.instance).getString(
+        get() = BaseLocaleApplication.instance.getSPValue(
             LocaleConstant.LANGUAGE,
             "0"
-        ) ?: "0"
-        set(value) = PreferenceManager.getDefaultSharedPreferences(BaseLocaleApplication.instance).edit().putString(
+        )
+        set(value) = BaseLocaleApplication.instance.saveSPValue(
             LocaleConstant.LANGUAGE,
             value
-        ).apply()
+        )
 }
