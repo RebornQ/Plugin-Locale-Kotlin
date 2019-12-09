@@ -1,6 +1,7 @@
 package pw.gike.multilanguagesdemo.activity
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
@@ -17,6 +18,8 @@ class SettingActivity : BaseAppCompatActivity() {
 
     private lateinit var btSelectLanguage : Button
 
+    private lateinit var btGotoTest : Button
+
     @SuppressLint("StringFormatInvalid")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,13 +33,17 @@ class SettingActivity : BaseAppCompatActivity() {
 
     private fun initView() {
         tvSelectLanguage = findViewById(R.id.tv_select_language)
-
         btSelectLanguage = findViewById(R.id.bt_select_language)
+        btGotoTest = findViewById(R.id.bt_goto_test)
 
         btSelectLanguage.setOnClickListener {
             listLanguageDialog()
         }
 
+        btGotoTest.setOnClickListener {
+            val intent = Intent(this, TestActivity::class.java)
+            startActivity(intent)
+        }
     }
 
     private fun listLanguageDialog() {

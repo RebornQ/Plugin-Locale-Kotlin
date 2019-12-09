@@ -29,11 +29,14 @@
     <string name="test_activity_string">Test Activity String</string>
     <string name="test_success">Test success!</string>
     <string name="app_name_label">App Name: %s</string>
-    <string name="fragment_string">Fragment string test success！</string>
+    <string name="fragment_string">Fragment context string test success！</string>
     <string name="fragment_application_string">Fragment application string test success！</string>
     <string name="test_start">Start test</string>
     <string name="click">Click</string>
     <string name="test_start_application">Start test ApplicationContext</string>
     <string name="test_fragment">Test Fragment</string>
+    <string name="goto_test">Goto Test</string>
+    <string name="application_context">Application\'s Context: %s</string>
+    <string name="activity_context">Activity\'s Context: %s</string>
 
 </resources>
