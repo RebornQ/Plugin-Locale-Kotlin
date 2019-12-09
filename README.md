@@ -18,6 +18,8 @@ Only support `English/Simplified Chinese/Traditional Chinese`, but you can submi
 ### 引入依赖
 #### plugin-language
 **（可选）项目的 build.gradle 中加入：**
+> *当 JCenter 无法链接的时候可以尝试使用*
+
 ```java
 allprojects {
     repositories {
@@ -40,17 +42,7 @@ implementation 'com.mallotec.reb:plugin-language:{last-version}'
 implementation 'androidx.preference:preference:1.1.0'
 ```
 
-#### About（可选）
-如果有用到 drakeet 的`about-page`库，则需要加入以下依赖
-```java
-// about
-implementation 'com.drakeet.about:about:2.3.1'
-implementation 'com.drakeet.about:about-extension:2.3.1'
-// multitype
-implementation 'com.drakeet.multitype:multitype:4.0.0'
-```
-
-### 添加混淆规则
+### 添加混淆规则(可选)
 
 ```shell
 # LanguagePlugin 混淆规则
@@ -60,7 +52,7 @@ implementation 'com.drakeet.multitype:multitype:4.0.0'
     
 ### 只需三步即可食用
 1. 自定义`Application`继承`BaseApplication`
-2. 所有`Activity`继承`BaseAppCompactActivity`，需要用 drakeet 的`AbsAboutActivity`则继承`BaseAbsAboutActivity`，更多的请查看下方支持库列表
+2. 所有`Activity`继承`BaseAppCompatActivity`，第三方`Activity`库的适配请查看下方适配指南
 3. 一句代码调用切换语言：
 
     ```java
@@ -88,11 +80,45 @@ implementation 'com.drakeet.multitype:multitype:4.0.0'
 
 更多请查看本项目的 [Demo](https://github.com/RebornQ/Plugin-Language-Kotlin/tree/master/demo)
 
-### 支持的 Activity 库列表
-- 官方的 [AppCompactActivity](https://developer.android.com/jetpack/androidx/releases/appcompat)
-- drakeet 的 [AbsAboutActivity](https://github.com/PureWriter/about-page)
+### Activity 库适配指南
+我们知道，除了官方的 [AppCompatActivity](https://developer.android.com/jetpack/androidx/releases/appcompat) 外，还有一些优秀开发者写的`Activity`库，比如`drakeet`的 [AbsAboutActivity](https://github.com/PureWriter/about-page)。
 
-> 若有其他第三方库需要支持的请提交 issue 或者直接联系我
+这时候我们要继承这些`Activity`做自己的处理的时候，继承了其他`Activity`就没法继承`BaseAppCompatActivity`了呀！那怎么办呢？
+
+别急，下面是适配指南～
+
+举例适配`drakeet`的`AbsAboutActivity`，加入以下内容：
+```java
+abstract class TestActivity : AbsAboutActivity() {
+
+    private var recreateActivityReceiver: RecreateActivityReceiver? = null
+
+    override fun attachBaseContext(newBase: Context) {
+        super.attachBaseContext(LocaleManageUtil.updateContext(newBase))
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        // 使用广播实现不重启到 LauncherActivity 只需 recreate() 即可刷新 Resources
+        recreateActivityReceiver = RecreateActivityReceiver(this)
+        registerReceiver(recreateActivityReceiver, recreateActivityReceiver!!.getDefaultIntentFilter())
+    }
+
+    // 防止 Locale 被一个新的 Configuration 对象覆盖掉（AppCompat库1.1.0-alpha03以上版本）
+    override fun applyOverrideConfiguration(overrideConfiguration: Configuration?) {
+        if (overrideConfiguration != null) {
+            overrideConfiguration?.setLocale(LocaleManageUtil.getSetLocale())
+        }
+        super.applyOverrideConfiguration(overrideConfiguration)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        unregisterReceiver(recreateActivityReceiver)
+    } 
+}
+```
 
 ## 写在最后
 欢迎大家 Star、Fork 和提 Issue 提 PR 呀～
