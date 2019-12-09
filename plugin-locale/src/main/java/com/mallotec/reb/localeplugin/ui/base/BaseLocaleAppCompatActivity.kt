@@ -28,9 +28,7 @@ abstract class BaseLocaleAppCompatActivity : AppCompatActivity() {
 
     // 防止 Locale 被一个新的 Configuration 对象覆盖掉（AppCompat库1.1.0-alpha03以上版本）
     override fun applyOverrideConfiguration(overrideConfiguration: Configuration?) {
-        if (overrideConfiguration != null) {
-            overrideConfiguration?.setLocale(LocaleManageUtil.getSetLocale())
-        }
+        overrideConfiguration?.setLocale(LocaleManageUtil.getSetLocale())
         super.applyOverrideConfiguration(overrideConfiguration)
     }
 
