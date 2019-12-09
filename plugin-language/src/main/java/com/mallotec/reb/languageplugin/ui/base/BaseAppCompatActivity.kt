@@ -1,29 +1,16 @@
 package com.mallotec.reb.languageplugin.ui.base
 
-import android.content.BroadcastReceiver
 import android.content.Context
-import android.content.Intent
-import android.content.IntentFilter
 import android.content.res.Configuration
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.mallotec.reb.languageplugin.Constant
+import com.mallotec.reb.languageplugin.receiver.RecreateActivityReceiver
 import com.mallotec.reb.languageplugin.utils.LocaleManageUtil
 
 
 abstract class BaseAppCompatActivity : AppCompatActivity() {
 
-    class RecreateActivityBroadcastReceiver(private var cont: Context?) : BroadcastReceiver() {
-
-        override fun onReceive(context: Context?, intent: Intent?) {
-            if (cont is BaseAppCompatActivity) {
-                (cont as BaseAppCompatActivity).recreate()
-            }
-        }
-    }
-
-    private var intentFilter: IntentFilter? = null
-    private var recreateActivityBroadcastReceiver: RecreateActivityBroadcastReceiver? = null
+    private var recreateActivityReceiver: RecreateActivityReceiver? = null
 
     override fun attachBaseContext(newBase: Context) {
         super.attachBaseContext(LocaleManageUtil.updateContext(newBase))
@@ -35,10 +22,8 @@ abstract class BaseAppCompatActivity : AppCompatActivity() {
 //        EventBus.getDefault().register(this)
 
         // 使用广播也可以实现不重启到 LauncherActivity 只需 recreate() 即可刷新 Resources
-        intentFilter = IntentFilter()
-        intentFilter!!.addAction(Constant.ACTION_RECREATE_ACTIVITY)
-        recreateActivityBroadcastReceiver = RecreateActivityBroadcastReceiver(this)
-        registerReceiver(recreateActivityBroadcastReceiver, intentFilter)
+        recreateActivityReceiver = RecreateActivityReceiver(this)
+        registerReceiver(recreateActivityReceiver, recreateActivityReceiver!!.getDefaultIntentFilter())
     }
 
     // 防止 Locale 被一个新的 Configuration 对象覆盖掉（AppCompat库1.1.0-alpha03以上版本）
@@ -61,6 +46,6 @@ abstract class BaseAppCompatActivity : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
 //        EventBus.getDefault().unregister(this)
-        unregisterReceiver(recreateActivityBroadcastReceiver)
+        unregisterReceiver(recreateActivityReceiver)
     }
 }

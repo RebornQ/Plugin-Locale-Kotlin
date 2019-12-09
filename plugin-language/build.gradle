@@ -39,11 +39,6 @@ dependencies {
 
     // preference
     implementation 'androidx.preference:preference:1.1.0'
-    // about
-    implementation 'com.drakeet.about:about:2.3.1'
-    implementation 'com.drakeet.about:about-extension:2.3.1'
-    // multitype
-    implementation 'com.drakeet.multitype:multitype:4.0.0'
     // EventBus
 //    implementation 'org.greenrobot:eventbus:3.1.1'
 }
