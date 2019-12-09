@@ -7,8 +7,8 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
-import com.mallotec.reb.languageplugin.ui.base.BaseLocaleAppCompatActivity
-import com.mallotec.reb.languageplugin.utils.LocaleManageUtil
+import com.mallotec.reb.localeplugin.ui.base.BaseLocaleAppCompatActivity
+import com.mallotec.reb.localeplugin.utils.LocaleManageUtil
 import pw.gike.multilanguagesdemo.App
 import pw.gike.multilanguagesdemo.R
 

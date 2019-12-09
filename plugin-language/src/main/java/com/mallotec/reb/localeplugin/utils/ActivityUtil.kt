@@ -1,8 +1,8 @@
-package com.mallotec.reb.languageplugin.utils
+package com.mallotec.reb.localeplugin.utils
 
 import android.content.Context
 import android.content.Intent
-import com.mallotec.reb.languageplugin.LocaleConstant
+import com.mallotec.reb.localeplugin.LocaleConstant
 
 /**
  * Created by reborn on 2019-12-07.

@@ -1,4 +1,4 @@
-package com.mallotec.reb.languageplugin
+package com.mallotec.reb.localeplugin
 
 import org.junit.Test
 

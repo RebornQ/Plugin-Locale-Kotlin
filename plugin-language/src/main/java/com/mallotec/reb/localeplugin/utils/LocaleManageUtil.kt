@@ -1,4 +1,4 @@
-package com.mallotec.reb.languageplugin.utils
+package com.mallotec.reb.localeplugin.utils
 
 import android.annotation.TargetApi
 import android.content.Context
@@ -7,9 +7,9 @@ import android.content.res.Configuration
 import android.os.Build
 import android.os.LocaleList
 import android.util.Log
-import com.mallotec.reb.languageplugin.BaseLocaleApplication
-import com.mallotec.reb.languageplugin.LocaleDefaultSPHelper
-import com.mallotec.reb.languageplugin.R
+import com.mallotec.reb.localeplugin.BaseLocaleApplication
+import com.mallotec.reb.localeplugin.LocaleDefaultSPHelper
+import com.mallotec.reb.localeplugin.R
 import java.util.*
 
 object LocaleManageUtil {

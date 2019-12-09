@@ -1,9 +1,9 @@
-package com.mallotec.reb.languageplugin
+package com.mallotec.reb.localeplugin
 
 import android.app.Application
 import android.content.Context
 import android.content.res.Configuration
-import com.mallotec.reb.languageplugin.utils.LocaleManageUtil
+import com.mallotec.reb.localeplugin.utils.LocaleManageUtil
 
 
 open class BaseLocaleApplication : Application() {

@@ -1,6 +1,6 @@
 package pw.gike.multilanguagesdemo
 
-import com.mallotec.reb.languageplugin.BaseLocaleApplication
+import com.mallotec.reb.localeplugin.BaseLocaleApplication
 
 
 class App : BaseLocaleApplication() {

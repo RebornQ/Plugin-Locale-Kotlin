@@ -1,4 +1,4 @@
-package com.mallotec.reb.languageplugin
+package com.mallotec.reb.localeplugin
 
 /**
  * 一些常量

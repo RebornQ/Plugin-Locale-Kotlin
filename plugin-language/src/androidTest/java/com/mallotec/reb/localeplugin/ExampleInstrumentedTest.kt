@@ -1,4 +1,4 @@
-package com.mallotec.reb.languageplugin
+package com.mallotec.reb.localeplugin
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4

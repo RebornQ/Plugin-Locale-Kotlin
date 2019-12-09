@@ -1,11 +1,11 @@
-package com.mallotec.reb.languageplugin.ui.base
+package com.mallotec.reb.localeplugin.ui.base
 
 import android.content.Context
 import android.content.res.Configuration
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.mallotec.reb.languageplugin.receiver.RecreateActivityReceiver
-import com.mallotec.reb.languageplugin.utils.LocaleManageUtil
+import com.mallotec.reb.localeplugin.receiver.RecreateActivityReceiver
+import com.mallotec.reb.localeplugin.utils.LocaleManageUtil
 
 
 abstract class BaseLocaleAppCompatActivity : AppCompatActivity() {

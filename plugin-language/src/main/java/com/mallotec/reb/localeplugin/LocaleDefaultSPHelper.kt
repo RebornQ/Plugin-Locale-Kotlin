@@ -14,7 +14,7 @@
  *  limitations under the License.
  */
 
-package com.mallotec.reb.languageplugin
+package com.mallotec.reb.localeplugin
 
 import androidx.preference.PreferenceManager
 
