@@ -6,7 +6,7 @@ import android.content.res.Configuration
 import com.mallotec.reb.languageplugin.utils.LocaleManageUtil
 
 
-open class BaseApplication : Application() {
+open class BaseLocaleApplication : Application() {
 
   override fun onCreate() {
     super.onCreate()
@@ -27,7 +27,7 @@ open class BaseApplication : Application() {
   }
 
   companion object {
-     lateinit var instance: BaseApplication
+     lateinit var instance: BaseLocaleApplication
       private set
   }
 }

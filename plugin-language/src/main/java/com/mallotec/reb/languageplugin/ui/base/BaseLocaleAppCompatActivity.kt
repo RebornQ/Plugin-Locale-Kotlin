@@ -8,7 +8,7 @@ import com.mallotec.reb.languageplugin.receiver.RecreateActivityReceiver
 import com.mallotec.reb.languageplugin.utils.LocaleManageUtil
 
 
-abstract class BaseAppCompatActivity : AppCompatActivity() {
+abstract class BaseLocaleAppCompatActivity : AppCompatActivity() {
 
     private var recreateActivityReceiver: RecreateActivityReceiver? = null
 

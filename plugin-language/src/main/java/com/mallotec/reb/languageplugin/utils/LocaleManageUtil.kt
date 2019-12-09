@@ -7,8 +7,8 @@ import android.content.res.Configuration
 import android.os.Build
 import android.os.LocaleList
 import android.util.Log
-import com.mallotec.reb.languageplugin.BaseApplication
-import com.mallotec.reb.languageplugin.DefaultSPHelper
+import com.mallotec.reb.languageplugin.BaseLocaleApplication
+import com.mallotec.reb.languageplugin.LocaleDefaultSPHelper
 import com.mallotec.reb.languageplugin.R
 import java.util.*
 
@@ -23,7 +23,7 @@ object LocaleManageUtil {
      * 获取已选择的语言设置
      */
     fun getSetLocale(): Locale {
-        return when (DefaultSPHelper.language) {
+        return when (LocaleDefaultSPHelper.language) {
             "0" -> currentSystemLocale
             "1" -> Locale.ENGLISH
             "2" -> Locale.SIMPLIFIED_CHINESE
@@ -33,7 +33,7 @@ object LocaleManageUtil {
     }
 
     fun getSelectLanguageString(context: Context): String {
-        return when (DefaultSPHelper.language) {
+        return when (LocaleDefaultSPHelper.language) {
             "0" -> context.resources.getStringArray(R.array.language_titles)[0]
             "1" -> context.resources.getStringArray(R.array.language_titles)[1]
             "2" -> context.resources.getStringArray(R.array.language_titles)[2]
@@ -117,9 +117,9 @@ object LocaleManageUtil {
 
     fun language(selectLanguage: String) : LocaleManageUtil {
         // 需要先保存选择的语言，否则更新 application 的语言配置时，拿到的还是上次配置的语言
-        DefaultSPHelper.language = selectLanguage
+        LocaleDefaultSPHelper.language = selectLanguage
         // recreate() 后只在 BaseActivity#attachBaseContext() 更新 Context，不更新 ApplicationContext，因此要手动更新
-        updateApplicationContext(BaseApplication.instance)
+        updateApplicationContext(BaseLocaleApplication.instance)
         return this
     }
 

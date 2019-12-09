@@ -2,7 +2,7 @@ package com.mallotec.reb.languageplugin.utils
 
 import android.content.Context
 import android.content.Intent
-import com.mallotec.reb.languageplugin.Constant
+import com.mallotec.reb.languageplugin.LocaleConstant
 
 /**
  * Created by reborn on 2019-12-07.
@@ -30,7 +30,7 @@ object ActivityUtil {
      */
     fun recreateActivity(context: Context){
         // 使用广播也可以实现不重启到 LauncherActivity 只需 recreate() 即可刷新 Resources
-        val intent = Intent(Constant.ACTION_RECREATE_ACTIVITY)
+        val intent = Intent(LocaleConstant.ACTION_RECREATE_ACTIVITY)
         context.sendBroadcast(intent) // 发送广播
     }
 }

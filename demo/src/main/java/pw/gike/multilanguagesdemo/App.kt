@@ -1,9 +1,9 @@
 package pw.gike.multilanguagesdemo
 
-import com.mallotec.reb.languageplugin.BaseApplication
+import com.mallotec.reb.languageplugin.BaseLocaleApplication
 
 
-class App : BaseApplication() {
+class App : BaseLocaleApplication() {
 
     override fun onCreate() {
         super.onCreate()

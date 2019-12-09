@@ -22,18 +22,18 @@ import androidx.preference.PreferenceManager
  * 默认 Preference
  * @author Bakumon https://bakumon.me
  */
-object DefaultSPHelper {
+object LocaleDefaultSPHelper {
 
     /**
      * 语言
      */
     var language: String
-        get() = PreferenceManager.getDefaultSharedPreferences(BaseApplication.instance).getString(
-            Constant.LANGUAGE,
+        get() = PreferenceManager.getDefaultSharedPreferences(BaseLocaleApplication.instance).getString(
+            LocaleConstant.LANGUAGE,
             "0"
         ) ?: "0"
-        set(value) = PreferenceManager.getDefaultSharedPreferences(BaseApplication.instance).edit().putString(
-            Constant.LANGUAGE,
+        set(value) = PreferenceManager.getDefaultSharedPreferences(BaseLocaleApplication.instance).edit().putString(
+            LocaleConstant.LANGUAGE,
             value
         ).apply()
 }
