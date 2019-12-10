@@ -38,6 +38,6 @@
     <string name="goto_test">Goto Test</string>
     <string name="application_context">Application\'s Context: %s</string>
     <string name="activity_context">Activity\'s Context: %s</string>
-    <string name="activity_custom_refresh_way_test">Here is a test of your way of refreshing Activity</string>
+    <string name="activity_custom_refresh_way_test">Here is a test of your way of refreshing Activity, please implement it yourself!</string>
 
 </resources>
