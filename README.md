@@ -1,5 +1,5 @@
 # Plugin-Locale-Kotlin
-[![Releases](https://img.shields.io/badge/android-5.0%2B-brightgreen.svg)](https://bintray.com/rebornq/maven/plugin-locale) [![Releases](https://img.shields.io/github/release/RebornQ/Plugin-Locale-Kotlin.svg)](https://github.com/RebornQ/Plugin-Locale-Kotlin) [ ![Download](https://api.bintray.com/packages/rebornq/maven/plugin-locale/images/download.svg) ](https://bintray.com/rebornq/maven/plugin-locale/_latestVersion)
+[![Android Version](https://img.shields.io/badge/android-5.0%2B-brightgreen.svg)](https://bintray.com/rebornq/maven/plugin-locale) ![Language](https://img.shields.io/badge/language-kotlin-orange.svg) [![Releases](https://img.shields.io/github/release/RebornQ/Plugin-Locale-Kotlin.svg)](https://github.com/RebornQ/Plugin-Locale-Kotlin) [ ![Download](https://api.bintray.com/packages/rebornq/maven/plugin-locale/images/download.svg) ](https://bintray.com/rebornq/maven/plugin-locale/_latestVersion) [![license](https://img.shields.io/badge/license-Apache2-yellow.svg)](https://github.com/RebornQ/Plugin-Locale-Kotlin/blob/master/LICENSE)
 
 An android plugin with kotlin for changing multi-language.
 
