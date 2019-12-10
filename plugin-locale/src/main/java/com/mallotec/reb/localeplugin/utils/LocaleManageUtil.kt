@@ -37,11 +37,11 @@ object LocaleManageUtil {
      */
     fun getSelectLanguageString(context: Context): String {
         return when (LocaleDefaultSPHelper.language) {
-            "0" -> context.resources.getStringArray(R.array.language_titles)[0]
-            "1" -> context.resources.getStringArray(R.array.language_titles)[1]
-            "2" -> context.resources.getStringArray(R.array.language_titles)[2]
-            "3" -> context.resources.getStringArray(R.array.language_titles)[3]
-            else -> context.resources.getStringArray(R.array.language_titles)[3]
+            "0" -> context.resources.getStringArray(R.array.plugin_locale_language_titles)[0]
+            "1" -> context.resources.getStringArray(R.array.plugin_locale_language_titles)[1]
+            "2" -> context.resources.getStringArray(R.array.plugin_locale_language_titles)[2]
+            "3" -> context.resources.getStringArray(R.array.plugin_locale_language_titles)[3]
+            else -> context.resources.getStringArray(R.array.plugin_locale_language_titles)[3]
         }
     }
 
