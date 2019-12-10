@@ -113,6 +113,8 @@ abstract class TestActivity : AbsAboutActivity() {
 }
 ```
 
+> **对于切换语言后一定不在返回栈中的`Activity`，不必做适配。**这是因为`App`内所有界面共享同一个`Locale`，切换后`Locale`变了，新启动的`Activity`用上新的`Context`已经是切换后的`Locale`。所以其实返回栈中的`Locale`也变了，只是界面资源没有刷新。
+
 ## 写在最后
 欢迎大家 Star、Fork 和提 Issue 提 PR 呀～
 
