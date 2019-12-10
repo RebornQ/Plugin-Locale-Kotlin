@@ -228,7 +228,7 @@ object LocaleManageUtil {
                 }
                 CUSTOM_WAY_TO_UPDATE_INTERFACE -> {
                     intent?.let {
-                        activityUtil?.customWayToUpdateInterface(context, it)
+                        activityUtil?.updateInterface(context, it)
                     }
                 }
                 else -> apply(context)
