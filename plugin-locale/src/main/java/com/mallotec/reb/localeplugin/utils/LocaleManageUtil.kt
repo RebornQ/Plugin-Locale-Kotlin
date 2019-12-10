@@ -31,7 +31,9 @@ object LocaleManageUtil {
             else -> Locale.SIMPLIFIED_CHINESE
         }
     }
-
+    /**
+     * 获取已选择的语言对应的名称
+     */
     fun getSelectLanguageString(context: Context): String {
         return when (LocaleDefaultSPHelper.language) {
             "0" -> context.resources.getStringArray(R.array.language_titles)[0]
@@ -41,7 +43,10 @@ object LocaleManageUtil {
             else -> context.resources.getStringArray(R.array.language_titles)[3]
         }
     }
-    
+
+    /**
+     * 更新 Context
+     */
     fun updateContext(context: Context): Context {
         val setLocale = getSetLocale()
         return if (needUpdateLocale(context, setLocale)) {
@@ -51,6 +56,9 @@ object LocaleManageUtil {
         }
     }
 
+    /**
+     * 更新 Resources
+     */
     private fun updateResources(context: Context, locale: Locale): Context {
         // 系统语言改变了，应用保持之前设置的语言
         Locale.setDefault(locale)
@@ -71,11 +79,17 @@ object LocaleManageUtil {
         return cont
     }
 
+    /**
+     * 设置 App 的语言（传统方式）
+     */
     @Suppress("DEPRECATION")
     private fun setAppLocaleLegacy(config: Configuration, locale: Locale) {
         config.locale = locale
     }
 
+    /**
+     * 设置 App 的语言（Android N+）
+     */
     @TargetApi(Build.VERSION_CODES.N)
     private fun setAppLocale(config: Configuration, locale: Locale) {
         config.setLocale(locale)
@@ -85,21 +99,30 @@ object LocaleManageUtil {
     }
 
     /**
-     * 设置语言类型
+     * 更新 ApplictionContext
      */
     fun updateApplicationContext(context: Context) : Context {
         return updateContext(context.applicationContext)
     }
 
+    /**
+     * 获取系统的语言（传统方式）
+     */
     private fun getSystemLocaleLegacy(): Locale {
         return Locale.getDefault()
     }
 
+    /**
+     * 获取系统的语言（Android N+）
+     */
     @TargetApi(Build.VERSION_CODES.N)
     private fun getSystemLocaleN(): Locale {
         return LocaleList.getDefault().get(0)
     }
 
+    /**
+     * 设置系统的语言
+     */
     fun getSystemLocale(): Locale {
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             getSystemLocaleN()
@@ -118,15 +141,24 @@ object LocaleManageUtil {
         return currentSystemLocale
     }
 
+    /**
+     * 获取 App 的语言（传统方式）
+     */
     private fun getAppLocaleLegacy(context: Context) : Locale {
         return context.resources.configuration.locale
     }
 
+    /**
+     * 获取 App 的语言（Android N+）
+     */
     @TargetApi(Build.VERSION_CODES.N)
     private fun getAppLocaleN(context: Context): Locale {
         return context.resources.configuration.locales.get(0)
     }
 
+    /**
+     * 获取 App 的当前语言
+     */
     fun getCurrentAppLocale(context: Context): Locale {
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) { //7.0有多语言设置获取顶部的语言
             getAppLocaleN(context)
@@ -146,12 +178,18 @@ object LocaleManageUtil {
         return getCurrentAppLocale(context).isO3Country != locale.isO3Country
     }
 
+    /**
+     * 系统设置更改后要做的操作
+     */
     fun onConfigurationChanged(context: Context) {
         cacheSystemLocale()
         updateContext(context)
         updateApplicationContext(context)
     }
 
+    /**
+     * 保存选择的语言
+     */
     fun language(selectLanguage: String) : LocaleManageUtil {
         // 需要先保存选择的语言，否则更新 application 的语言配置时，拿到的还是上次配置的语言
         LocaleDefaultSPHelper.language = selectLanguage
@@ -160,6 +198,9 @@ object LocaleManageUtil {
         return this
     }
 
+    /**
+     * 应用选择的语言
+     */
     fun apply(context: Context) {
         // 使用 EventBus 可以实现不重启到 LauncherActivity 只需 recreate() 即可刷新 Context 的 Resources
 //        EventBus.getDefault().post(Constant.EVENT_RECREATE_ACTIVITY)
@@ -167,12 +208,17 @@ object LocaleManageUtil {
         ActivityUtil.recreateActivity(context)
     }
 
+    /**
+     * 应用选择的语言
+     */
     fun apply(context: Context, intent: Intent?) {
         // 重启到 LauncherActivity 刷新 Context 的 Resources
         ActivityUtil.openWithClearTask(context, intent)
     }
 
-    // 输出当前context使用的语言，仅调试用
+    /**
+     * 输出当前context使用的语言，仅调试用
+     */
     @Suppress("DEPRECATION")
     @TargetApi(Build.VERSION_CODES.N)
     fun printContextLocale(context: Context, tag: String) {
