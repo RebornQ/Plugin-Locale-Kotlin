@@ -17,18 +17,34 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
-        release {
-            minifyEnabled false
+        debug {
+            // Zipalign优化
+            zipAlignEnabled true
+            // 混淆
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        release {
+            // Zipalign优化
+            zipAlignEnabled true
+            // 混淆
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    sourceSets {
+        main {
+            //jni库的调用会到资源文件夹下libs里面找so文件
+            jniLibs.srcDirs = ['libs']
         }
     }
 }
 
-//repositories{
-//    flatDir {
-//        dirs 'libs'
-//    }
-//}
+repositories{
+    flatDir {
+        dirs 'libs'
+    }
+}
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
@@ -44,6 +60,6 @@ dependencies {
     implementation 'org.greenrobot:eventbus:3.1.1'
     // LocalePlugin
     debugImplementation project(':plugin-locale')
-//    releaseimplementation(name: 'plugin-locale', ext: 'aar')
-    releaseImplementation 'com.mallotec.reb:plugin-locale:1.0.6'
+//    debugImplementation(name: 'plugin-locale-debug', ext: 'aar')
+    releaseImplementation 'com.mallotec.reb:plugin-locale:1.0.7'
 }

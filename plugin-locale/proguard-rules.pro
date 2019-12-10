@@ -140,3 +140,11 @@
 #-keepclassmembers class * extends org.greenrobot.eventbus.util.ThrowableFailureEvent {
 #    <init>(java.lang.Throwable);
 #}
+
+# Plugin-Locale 混淆规则
+# 保持了 utils 包下所有类里面所有 public 修饰的成员和方法
+-keep class com.mallotec.reb.localeplugin.utils.* {
+    public <methods>;
+    public static final <fields>;
+}
+-keep class com.mallotec.reb.localeplugin.BaseLocaleApplication
