@@ -1,5 +1,5 @@
 # Plugin-Locale-Kotlin
-[![Android Version](https://img.shields.io/badge/android-5.0%2B-brightgreen.svg)](https://bintray.com/rebornq/maven/plugin-locale) ![Language](https://img.shields.io/badge/language-kotlin-orange.svg) [![Releases](https://img.shields.io/github/release/RebornQ/Plugin-Locale-Kotlin.svg)](https://github.com/RebornQ/Plugin-Locale-Kotlin) [ ![Download](https://api.bintray.com/packages/rebornq/maven/plugin-locale/images/download.svg) ](https://bintray.com/rebornq/maven/plugin-locale/_latestVersion) [![license](https://img.shields.io/badge/license-Apache2-yellow.svg)](https://github.com/RebornQ/Plugin-Locale-Kotlin/blob/master/LICENSE)
+[![Android Version](https://img.shields.io/badge/android-5.0%2B-brightgreen.svg)](https://bintray.com/rebornq/maven/plugin-locale) [![Language](https://img.shields.io/badge/language-kotlin-orange.svg)](https://github.com/RebornQ/Plugin-Locale-Kotlin) [![Releases](https://img.shields.io/github/release/RebornQ/Plugin-Locale-Kotlin.svg)](https://github.com/RebornQ/Plugin-Locale-Kotlin) [ ![Download](https://api.bintray.com/packages/rebornq/maven/plugin-locale/images/download.svg) ](https://bintray.com/rebornq/maven/plugin-locale/_latestVersion) [![license](https://img.shields.io/badge/license-Apache2-yellow.svg)](https://github.com/RebornQ/Plugin-Locale-Kotlin/blob/master/LICENSE)
 
 An android plugin with kotlin for changing multi-language.
 
@@ -114,6 +114,58 @@ abstract class TestActivity : AbsAboutActivity() {
 ```
 
 > **对于切换语言后一定不在返回栈中的`Activity`，不必做适配。** 这是因为`App`内所有界面共享同一个`Locale`，切换后`Locale`变了，新启动的`Activity`用上新的`Context`已经是切换后的`Locale`。所以其实返回栈中的`Locale`也变了，只是界面资源没有刷新。
+
+### 自定义切换语言后刷新界面的方式
+首先，下面是几个初始化刷新界面方式的常量：
+```java
+LocaleConstant.RESTART_TO_LAUNCHER_ACTIVITY -> 重启到主页（非重启 App ）
+LocaleConstant.RECREATE_CURRENT_ACTIVITY -> 重启已经打开的 Activity
+LocaleConstant.CUSTOM_WAY_TO_UPDATE_INTERFACE -> 自己实现刷新界面的方式
+```
+
+插件自动初始化为`LocaleConstant.RECREATE_CURRENT_ACTIVITY`，若要自己实现，需要先在使用前调用以下代码初始化，建议在`Application`：
+```java
+LocalePlugin
+    .setUpdateInterfaceWay(LocaleConstant.CUSTOM_WAY_TO_UPDATE_INTERFACE)   // 若调用时参数为空，则默认方式， recreate()
+    .init()
+```
+
+初始化过后，在切换语言的界面实现`ActivityUtil.OnUpdateInterfaceListener`接口、设置监听器，然后在接口方法体内写自己想要实现的刷新界面逻辑，如：
+```java
+class SettingActivity : BaseLocaleAppCompatActivity(), ActivityUtil.OnUpdateInterfaceListener {
+
+    @SuppressLint("StringFormatInvalid")
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_settings)
+        ...
+        // 设置监听器
+        ActivityUtil.setOnUpdateInterfaceListener(this)
+    }
+
+    override fun updateInterface(context: Context, intent: Intent?) {
+        // TODO: To write your way to update interface
+        Toast.makeText(context, intent?.getStringExtra("Test"), Toast.LENGTH_LONG).show()
+    }
+}
+```
+
+然后在切换语言的时候调用：
+```java
+// 应用切换的语言
+LocaleManageUtil
+    .language(which.toString())
+    .apply(this@SettingActivity, intent, ActivityUtil)
+```
+
+举例：
+```java
+val intent = Intent(this, MainActivity::class.java)
+intent.putExtra("Test", getString(R.string.activity_custom_refresh_way_test))
+LocaleManageUtil
+    .language(which.toString())
+    .apply(this@SettingActivity, intent, ActivityUtil)
+```
 
 ## 写在最后
 欢迎大家 Star、Fork 和提 Issue 提 PR 呀～
