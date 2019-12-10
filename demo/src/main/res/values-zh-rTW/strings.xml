@@ -40,4 +40,5 @@
     <string name="goto_test">去測試</string>
     <string name="application_context">Application的Context: %s</string>
 	<string name="activity_context">Activity的Context: %s</string>
+    <string name="activity_custom_refresh_way_test">這裡是自定義刷新Activity界面方式的測試</string>
 </resources>

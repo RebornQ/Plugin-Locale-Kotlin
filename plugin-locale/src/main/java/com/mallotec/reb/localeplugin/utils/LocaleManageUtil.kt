@@ -8,13 +8,14 @@ import android.os.Build
 import android.os.LocaleList
 import android.util.Log
 import com.mallotec.reb.localeplugin.BaseLocaleApplication
+import com.mallotec.reb.localeplugin.LocaleConstant
 import com.mallotec.reb.localeplugin.LocaleDefaultSPHelper
 import com.mallotec.reb.localeplugin.R
 import java.util.*
 
 object LocaleManageUtil {
 
-    private val TAG = "LocaleManageUtil"
+    private const val TAG = "LocaleManageUtil"
 
     // 静态属性，修复识别系统语言为英语的问题
     private var currentSystemLocale = Locale.SIMPLIFIED_CHINESE
@@ -214,6 +215,25 @@ object LocaleManageUtil {
     fun apply(context: Context, intent: Intent?) {
         // 重启到 LauncherActivity 刷新 Context 的 Resources
         ActivityUtil.openWithClearTask(context, intent)
+    }
+
+    fun apply(context: Context, intent: Intent? = null, activityUtil: ActivityUtil? = null) {
+        with(LocaleConstant) {
+            when (ActivityUtil.getUpdateWay()) {
+                RESTART_TO_LAUNCHER_ACTIVITY -> {
+                    apply(context, intent!!)
+                }
+                RECREATE_CURRENT_ACTIVITY -> {
+                    apply(context)
+                }
+                CUSTOM_WAY_TO_UPDATE_INTERFACE -> {
+                    intent?.let {
+                        activityUtil?.customWayToUpdateInterface(context, it)
+                    }
+                }
+                else -> apply(context)
+            }
+        }
     }
 
     /**
