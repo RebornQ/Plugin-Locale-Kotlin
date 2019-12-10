@@ -148,3 +148,10 @@
     public static final <fields>;
 }
 -keep class com.mallotec.reb.localeplugin.BaseLocaleApplication
+-keep class com.mallotec.reb.localeplugin.LocalePlugin {
+    public <methods>;
+    public static final <fields>;
+}
+-keep class com.mallotec.reb.localeplugin.LocaleConstant {
+    public static final <fields>;
+}
