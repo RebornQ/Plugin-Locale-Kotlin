@@ -49,8 +49,8 @@ implementation 'com.mallotec.reb:plugin-locale:{last-version}'
 </details>
 
 ### 只需三步即可食用
-1. 自定义`Application`继承`BaseApplication`
-2. 所有`Activity`继承`BaseAppCompatActivity`，第三方`Activity`库的适配请查看下方更多用法或直接👉[Wiki](https://github.com/RebornQ/Plugin-Locale-Kotlin/wiki/%E7%AC%AC%E4%B8%89%E6%96%B9-Activity-%E5%BA%93%E9%80%82%E9%85%8D%E6%8C%87%E5%8D%97)
+1. 自定义`Application`继承`BaseLocaleApplication`
+2. 所有`Activity`继承`BaseLocaleAppCompatActivity`，第三方`Activity`库的适配请查看下方更多用法或直接👉[Wiki](https://github.com/RebornQ/Plugin-Locale-Kotlin/wiki/%E7%AC%AC%E4%B8%89%E6%96%B9-Activity-%E5%BA%93%E9%80%82%E9%85%8D%E6%8C%87%E5%8D%97)
 3. 一句代码调用切换语言：
 
     ```java
@@ -92,7 +92,7 @@ implementation 'com.mallotec.reb:plugin-locale:{last-version}'
 ### 第三方 Activity 库适配指南
 我们知道，除了官方的 [AppCompatActivity](https://developer.android.com/jetpack/androidx/releases/appcompat) 外，还有一些优秀开发者写的`Activity`库，比如`drakeet`的 [AbsAboutActivity](https://github.com/PureWriter/about-page)。
 
-这时候我们要继承这些`Activity`做自己的处理的时候，继承了其他`Activity`就没法继承`BaseAppCompatActivity`了呀！那怎么办呢？
+这时候我们要继承这些`Activity`做自己的处理的时候，继承了其他`Activity`就没法继承`BaseLocaleAppCompatActivity`了呀！那怎么办呢？
 
 别急，下面是适配指南～
 
