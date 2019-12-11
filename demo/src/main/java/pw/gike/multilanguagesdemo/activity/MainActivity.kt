@@ -7,12 +7,12 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
-import com.mallotec.reb.localeplugin.ui.base.BaseLocaleAppCompatActivity
-import com.mallotec.reb.localeplugin.utils.LocaleManageUtil
+import androidx.appcompat.app.AppCompatActivity
+import com.mallotec.reb.localeplugin.utils.LocaleHelper
 import pw.gike.multilanguagesdemo.App
 import pw.gike.multilanguagesdemo.R
 
-class MainActivity : BaseLocaleAppCompatActivity() {
+class MainActivity : AppCompatActivity() {
 
     private lateinit var btStartSettingActivity: Button
     private lateinit var btTestActivityString: Button
@@ -66,12 +66,12 @@ class MainActivity : BaseLocaleAppCompatActivity() {
         tvAppName.text = App.instance.getString(R.string.app_name_label, getApplicationName())
         val string = getString(
             R.string.system_language,
-            LocaleManageUtil.getCurrentSystemLocale().displayLanguage
+            LocaleHelper.getInstance().getCurrentSystemLocale().displayLanguage
         )
         tvSystemLanguage.text = string
         tvUserSelectLanguage.text = getString(
             R.string.user_select_language,
-            LocaleManageUtil.getSelectLanguageString(this)
+            LocaleHelper.getInstance().getSelectLanguageString(this)
         )
         tvApplicationString.text = App.instance.getString(R.string.application_string, App.instance.getString(R.string.test_success))
         tvActivityString.text = getString(R.string.activity_string, getString(R.string.test_success))

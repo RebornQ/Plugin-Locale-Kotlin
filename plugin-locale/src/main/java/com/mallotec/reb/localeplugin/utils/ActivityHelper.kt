@@ -8,7 +8,7 @@ import com.mallotec.reb.localeplugin.R
 /**
  * Created by reborn on 2019-12-07.
  */
-object ActivityUtil {
+class ActivityHelper {
 
     interface OnUpdateInterfaceListener {
         fun updateInterface(context: Context, intent: Intent?)
@@ -21,15 +21,18 @@ object ActivityUtil {
     }
 
     // 默认方式是 recreate()
-    private var updateWay = LocaleConstant.RECREATE_CURRENT_ACTIVITY
+    private var interfaceUpdateWay = -1
 
     // 若调用时参数为空，则默认方式， recreate()
-    fun init(updateWay: Int = LocaleConstant.RECREATE_CURRENT_ACTIVITY) {
-        this.updateWay = updateWay
+    fun setInterfaceUpdateWay(updateInterfaceWay: Int = LocaleConstant.RECREATE_CURRENT_ACTIVITY) {
+        this.interfaceUpdateWay = updateInterfaceWay
     }
 
-    fun getUpdateWay(): Int {
-        return updateWay
+    fun getInterfaceUpdateWay(): Int {
+        if (interfaceUpdateWay == -1) {
+            throw IllegalArgumentException("ActivityHelper.updateInterfaceWay should be initialized first")
+        }
+        return interfaceUpdateWay
     }
 
     /**
@@ -60,5 +63,32 @@ object ActivityUtil {
     fun updateInterface(context: Context, intent: Intent?) {
         // if(xx != null) ... else ...
         onUpdateInterfaceListener?.updateInterface(context, intent) ?: throw IllegalArgumentException(context.getString(R.string.plugin_locale_listener_not_initialized))
+    }
+
+    companion object {
+        private lateinit var instance : ActivityHelper
+
+        fun getInstance(): ActivityHelper {
+            check(::instance.isInitialized) { "ActivityHelper should be initialized first"  }
+            return instance
+        }
+
+        fun initInterfaceUpdateWay(interfaceUpdateWay: Int): ActivityHelper{
+            getInstance().setInterfaceUpdateWay(interfaceUpdateWay)
+            return getInstance()
+        }
+
+        fun init(interfaceUpdateWay: Int): ActivityHelper {
+            check(!::instance.isInitialized) { "LocaleDefaultSPHelper is already initialized" }
+            instance = ActivityHelper()
+            getInstance().setInterfaceUpdateWay(interfaceUpdateWay)
+            return instance
+        }
+
+        fun init(): ActivityHelper {
+            check(!::instance.isInitialized) { "LocaleDefaultSPHelper is already initialized" }
+            instance = ActivityHelper()
+            return instance
+        }
     }
 }

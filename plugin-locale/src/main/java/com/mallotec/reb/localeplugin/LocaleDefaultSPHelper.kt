@@ -16,6 +16,7 @@
 
 package com.mallotec.reb.localeplugin
 
+import android.content.Context
 import com.mallotec.reb.localeplugin.utils.getSPValue
 import com.mallotec.reb.localeplugin.utils.saveSPValue
 
@@ -23,18 +24,37 @@ import com.mallotec.reb.localeplugin.utils.saveSPValue
  * 默认 Preference
  * @author Bakumon https://bakumon.me
  */
-object LocaleDefaultSPHelper {
+class LocaleDefaultSPHelper(private val context: Context) {
 
-    /**
-     * 语言
-     */
-    var language: String
-        get() = BaseLocaleApplication.instance.getSPValue(
-            LocaleConstant.LANGUAGE,
-            "0"
-        )
-        set(value) = BaseLocaleApplication.instance.saveSPValue(
-            LocaleConstant.LANGUAGE,
-            value
-        )
+    fun getContext() : Context{
+        return context
+    }
+
+    companion object{
+        private lateinit var instance : LocaleDefaultSPHelper
+
+        private fun getInstance(): LocaleDefaultSPHelper {
+            check(::instance.isInitialized) { "LocaleDefaultSPHelper should be initialized first"  }
+            return instance
+        }
+
+        /**
+         * 语言
+         */
+        var language: String
+            get() = getInstance().getContext().getSPValue(
+                LocaleConstant.LANGUAGE,
+                "0"
+            )
+            set(value) = getInstance().getContext().saveSPValue(
+                LocaleConstant.LANGUAGE,
+                value
+            )
+
+        fun init(context: Context): LocaleDefaultSPHelper{
+            check(!::instance.isInitialized) { "LocaleDefaultSPHelper is already initialized" }
+            instance = LocaleDefaultSPHelper(context)
+            return instance
+        }
+    }
 }

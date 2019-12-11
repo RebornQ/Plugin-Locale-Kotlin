@@ -8,14 +8,14 @@ import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import com.mallotec.reb.localeplugin.ui.base.BaseLocaleAppCompatActivity
-import com.mallotec.reb.localeplugin.utils.ActivityUtil
-import com.mallotec.reb.localeplugin.utils.LocaleManageUtil
+import androidx.appcompat.app.AppCompatActivity
+import com.mallotec.reb.localeplugin.utils.ActivityHelper
+import com.mallotec.reb.localeplugin.utils.LocaleHelper
 import pw.gike.multilanguagesdemo.R
 
 
 // 此处不能继承AppCompatActivity，否则无法通过attachBaseContext()刷新语言
-class SettingActivity : BaseLocaleAppCompatActivity(), ActivityUtil.OnUpdateInterfaceListener {
+class SettingActivity : AppCompatActivity(), ActivityHelper.OnUpdateInterfaceListener {
 
     private lateinit var tvSelectLanguage: TextView
 
@@ -30,9 +30,9 @@ class SettingActivity : BaseLocaleAppCompatActivity(), ActivityUtil.OnUpdateInte
         initView()
         tvSelectLanguage.text = getString(
             R.string.user_select_language,
-            LocaleManageUtil.getSelectLanguageString(this)
+            LocaleHelper.getInstance().getSelectLanguageString(this)
         )
-        ActivityUtil.setOnUpdateInterfaceListener(this)
+        ActivityHelper.getInstance().setOnUpdateInterfaceListener(this)
     }
 
     private fun initView() {
@@ -57,9 +57,9 @@ class SettingActivity : BaseLocaleAppCompatActivity(), ActivityUtil.OnUpdateInte
             // 应用切换的语言
             val intent = Intent(this, MainActivity::class.java)
             intent.putExtra("Test", getString(R.string.activity_custom_refresh_way_test))
-            LocaleManageUtil
+            LocaleHelper.getInstance()
                 .language(resources.getStringArray(R.array.language_values)[which])
-                .apply(this, intent, ActivityUtil)
+                .apply(this, intent, ActivityHelper.getInstance())
             dialog.dismiss()
         }
         listDialog.show()

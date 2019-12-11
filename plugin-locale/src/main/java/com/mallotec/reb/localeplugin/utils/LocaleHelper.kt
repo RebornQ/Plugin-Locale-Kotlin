@@ -1,21 +1,19 @@
 package com.mallotec.reb.localeplugin.utils
 
 import android.annotation.TargetApi
+import android.app.Application
 import android.content.Context
 import android.content.Intent
 import android.content.res.Configuration
 import android.os.Build
 import android.os.LocaleList
 import android.util.Log
-import com.mallotec.reb.localeplugin.BaseLocaleApplication
 import com.mallotec.reb.localeplugin.LocaleConstant
 import com.mallotec.reb.localeplugin.LocaleDefaultSPHelper
 import com.mallotec.reb.localeplugin.R
 import java.util.*
 
-object LocaleManageUtil {
-
-    private const val TAG = "LocaleManageUtil"
+class LocaleHelper(private val application: Application) {
 
     // 静态属性，修复识别系统语言为英语的问题
     private var currentSystemLocale = Locale.SIMPLIFIED_CHINESE
@@ -191,12 +189,12 @@ object LocaleManageUtil {
     /**
      * 保存选择的语言
      */
-    fun language(selectLanguage: String) : LocaleManageUtil {
+    fun language(selectLanguage: String) : LocaleHelper {
         // 需要先保存选择的语言，否则更新 application 的语言配置时，拿到的还是上次配置的语言
         LocaleDefaultSPHelper.language = selectLanguage
         // recreate() 后只在 BaseActivity#attachBaseContext() 更新 Context，不更新 ApplicationContext，因此要手动更新
-        updateApplicationContext(BaseLocaleApplication.instance)
-        return this
+        getInstance().updateApplicationContext(getInstance().application)
+        return instance
     }
 
     /**
@@ -206,7 +204,7 @@ object LocaleManageUtil {
         // 使用 EventBus 可以实现不重启到 LauncherActivity 只需 recreate() 即可刷新 Context 的 Resources
 //        EventBus.getDefault().post(Constant.EVENT_RECREATE_ACTIVITY)
         // 使用广播也可以实现不重启到 LauncherActivity 只需 recreate() 即可刷新 Context 的 Resources
-        ActivityUtil.recreateActivity(context)
+        ActivityHelper.getInstance().recreateActivity(context)
     }
 
     /**
@@ -214,12 +212,12 @@ object LocaleManageUtil {
      */
     fun apply(context: Context, intent: Intent?) {
         // 重启到 LauncherActivity 刷新 Context 的 Resources
-        ActivityUtil.openWithClearTask(context, intent)
+        ActivityHelper.getInstance().openWithClearTask(context, intent)
     }
 
-    fun apply(context: Context, intent: Intent? = null, activityUtil: ActivityUtil? = null) {
+    fun apply(context: Context, intent: Intent? = null, activityUtil: ActivityHelper? = null) {
         with(LocaleConstant) {
-            when (ActivityUtil.getUpdateWay()) {
+            when (ActivityHelper.getInstance().getInterfaceUpdateWay()) {
                 RESTART_TO_LAUNCHER_ACTIVITY -> {
                     apply(context, intent!!)
                 }
@@ -246,5 +244,21 @@ object LocaleManageUtil {
         val config = resources.configuration
         Log.d("Locale-$tag", config.locale.language)
         Log.d("Locale-$tag", config.locales.toLanguageTags())
+    }
+
+    companion object {
+        private const val TAG = "LocaleHelper"
+        private lateinit var instance: LocaleHelper
+
+        fun getInstance(): LocaleHelper{
+            check(::instance.isInitialized) { "LocaleHelper should be initialized first" }
+            return instance
+        }
+
+        fun init(application: Application): LocaleHelper{
+            check(!::instance.isInitialized) { "LocaleHelper is already initialized" }
+            instance = LocaleHelper(application)
+            return instance
+        }
     }
 }
