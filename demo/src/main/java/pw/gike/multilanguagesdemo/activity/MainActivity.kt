@@ -3,16 +3,16 @@ package pw.gike.multilanguagesdemo.activity
 import android.content.Intent
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageManager
+import android.content.res.Configuration
 import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import com.mallotec.reb.localeplugin.utils.LocaleHelper
 import pw.gike.multilanguagesdemo.App
 import pw.gike.multilanguagesdemo.R
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : BaseActivity() {
 
     private lateinit var btStartSettingActivity: Button
     private lateinit var btTestActivityString: Button
@@ -32,6 +32,11 @@ class MainActivity : AppCompatActivity() {
         setValue()
     }
 
+    override fun applyOverrideConfiguration(overrideConfiguration: Configuration?) {
+        overrideConfiguration?.setLocale(LocaleHelper.getInstance().getSetLocale())
+        super.applyOverrideConfiguration(overrideConfiguration)
+    }
+
     private fun initView() {
         btStartSettingActivity = findViewById(R.id.bt_settings)
         btTestApplicationString = findViewById(R.id.bt_test_application_string)
@@ -49,11 +54,19 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
         btTestApplicationString.setOnClickListener {
-            tvApplicationString.text = App.instance.getString(R.string.application_string, App.instance.getString(R.string.test_success))
-            Toast.makeText(App.instance, App.instance.getString(R.string.test_success), Toast.LENGTH_SHORT).show()
+            tvApplicationString.text = App.instance.getString(
+                R.string.application_string,
+                App.instance.getString(R.string.test_success)
+            )
+            Toast.makeText(
+                App.instance,
+                App.instance.getString(R.string.test_success),
+                Toast.LENGTH_SHORT
+            ).show()
         }
         btTestActivityString.setOnClickListener {
-            tvActivityString.text = getString(R.string.activity_string, getString(R.string.test_success))
+            tvActivityString.text =
+                getString(R.string.activity_string, getString(R.string.test_success))
             Toast.makeText(this, getString(R.string.test_success), Toast.LENGTH_SHORT).show()
         }
         btTestFragment.setOnClickListener {
@@ -73,17 +86,21 @@ class MainActivity : AppCompatActivity() {
             R.string.user_select_language,
             LocaleHelper.getInstance().getSelectLanguageString(this)
         )
-        tvApplicationString.text = App.instance.getString(R.string.application_string, App.instance.getString(R.string.test_success))
-        tvActivityString.text = getString(R.string.activity_string, getString(R.string.test_success))
+        tvApplicationString.text = App.instance.getString(
+            R.string.application_string,
+            App.instance.getString(R.string.test_success)
+        )
+        tvActivityString.text =
+            getString(R.string.activity_string, getString(R.string.test_success))
     }
 
-    private fun getApplicationName() : String {
-        var packageManager : PackageManager? = null
-        var applicationInfo : ApplicationInfo? = null
+    private fun getApplicationName(): String {
+        var packageManager: PackageManager? = null
+        var applicationInfo: ApplicationInfo? = null
         try {
             packageManager = applicationContext.packageManager
             applicationInfo = packageManager.getApplicationInfo(packageName, 0)
-        } catch (e : PackageManager.NameNotFoundException) {
+        } catch (e: PackageManager.NameNotFoundException) {
         }
         val applicationName = packageManager!!.getApplicationLabel(applicationInfo)
         return applicationName.toString()

@@ -10,7 +10,7 @@ import pw.gike.multilanguagesdemo.App
 import pw.gike.multilanguagesdemo.R
 import pw.gike.multilanguagesdemo.fragment.TestFragment
 
-class TestActivity : AppCompatActivity() {
+class TestActivity : BaseActivity() {
 
     private lateinit var tvApplicationContext: TextView
     private lateinit var tvActivityContext: TextView

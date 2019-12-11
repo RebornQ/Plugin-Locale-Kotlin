@@ -15,7 +15,7 @@ import pw.gike.multilanguagesdemo.R
 
 
 // 此处不能继承AppCompatActivity，否则无法通过attachBaseContext()刷新语言
-class SettingActivity : AppCompatActivity(), ActivityHelper.OnUpdateInterfaceListener {
+class SettingActivity : BaseActivity(), ActivityHelper.OnUpdateInterfaceListener {
 
     private lateinit var tvSelectLanguage: TextView
 
