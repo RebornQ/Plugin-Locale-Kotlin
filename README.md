@@ -48,17 +48,41 @@ implementation 'com.mallotec.reb:plugin-locale:{last-version}'
 
 </details>
 
-### 只需三步即可食用
-1. 自定义`Application`继承`BaseLocaleApplication`
-2. 所有`Activity`继承`BaseLocaleAppCompatActivity`，第三方`Activity`库的适配请查看下方更多用法或直接👉[Wiki](https://github.com/RebornQ/Plugin-Locale-Kotlin/wiki/%E7%AC%AC%E4%B8%89%E6%96%B9-Activity-%E5%BA%93%E9%80%82%E9%85%8D%E6%8C%87%E5%8D%97)
-3. 一句代码调用切换语言：
+### 只需两步即可食用
+1. 在 Application 中初始化
+
+    ```java
+    LocalePlugin.init(this)
+    ```
+    或
+    ```java
+    LocalePlugin.init(this, { 刷新界面的方式 })
+    ```
+    > 其中`{ 刷新界面的方式 }`有三种：
+    > 1. `LocaleConstant.RESTART_TO_LAUNCHER_ACTIVITY`: 清空栈中所有`Activity`并重启到`LauncherActivity`
+    > 2. `LocaleConstant.RECREATE_CURRENT_ACTIVITY`: 重新创建当前`Activity`， **默认是这种方式，可不填写**
+    > 3. `LocaleConstant.CUSTOM_WAY_TO_UPDATE_INTERFACE`: 自定义刷新界面， **如果选这种方式的朋友请务必查看下方👉[更多用法](https://github.com/RebornQ/Plugin-Locale-Kotlin#%E6%9B%B4%E5%A4%9A%E7%94%A8%E6%B3%95)或👉[Wiki](https://github.com/RebornQ/Plugin-Locale-Kotlin/wiki/%E8%87%AA%E5%AE%9A%E4%B9%89%E5%88%87%E6%8D%A2%E8%AF%AD%E8%A8%80%E5%90%8E%E5%88%B7%E6%96%B0%E7%95%8C%E9%9D%A2%E7%9A%84%E6%96%B9%E5%BC%8F)**
+2. 一句代码调用切换语言：
 
     ```java
     // 应用切换的语言
-    LocaleManageUtil
+    LocaleHelper.getInstance()
         .language(which.toString())
         .apply(this)
     ```
+    
+    若`{ 刷新界面的方式 }`选择了第一种`LocaleConstant.RESTART_TO_LAUNCHER_ACTIVITY`，请使用下面的方式：
+    
+    ```java
+    // 应用切换的语言
+    val intent = Intent(this, TargetActivity::class.java)
+    LocaleHelper.getInstance()
+        .language(which.toString())
+        .apply(this, intent)
+    ```
+    若`{ 刷新界面的方式 }`选择了第三种`LocaleConstant.CUSTOM_WAY_TO_UPDATE_INTERFACE`，请使用下面的方式：
+    >  上面有写，**查看下方👉[更多用法](https://github.com/RebornQ/Plugin-Locale-Kotlin#%E6%9B%B4%E5%A4%9A%E7%94%A8%E6%B3%95)或👉[Wiki](https://github.com/RebornQ/Plugin-Locale-Kotlin/wiki/%E8%87%AA%E5%AE%9A%E4%B9%89%E5%88%87%E6%8D%A2%E8%AF%AD%E8%A8%80%E5%90%8E%E5%88%B7%E6%96%B0%E7%95%8C%E9%9D%A2%E7%9A%84%E6%96%B9%E5%BC%8F)**
+    
    **注意：这里的`this`必须是当前`Activity`的`Context`；`which`是所选的语言标记，详情请看下方注意事项的对应关系**
 
 ### 注意事项
@@ -74,7 +98,7 @@ implementation 'com.mallotec.reb:plugin-locale:{last-version}'
 ### Demo
 
 <details>
-<summary>效果图</summary>
+<summary>效果图（默认第二种刷新界面方式）</summary>
 
 ![MultiLanguageDemo-NoRestartToLaunche](/media/MultiLanguageDemo-NoRestartToLauncher.gif)
 
@@ -86,49 +110,9 @@ implementation 'com.mallotec.reb:plugin-locale:{last-version}'
 更多用法请转战 **Wiki** ：🚪[传送门](https://github.com/RebornQ/Plugin-Locale-Kotlin/wiki)
 
 <details>
-<details>
-<summary>第三方 Activity 库适配指南</summary>
+<summary>~~第三方 Activity 库适配指南（V1.0.9后已不再需要适配）~~</summary>
 
-### 第三方 Activity 库适配指南
-我们知道，除了官方的 [AppCompatActivity](https://developer.android.com/jetpack/androidx/releases/appcompat) 外，还有一些优秀开发者写的`Activity`库，比如`drakeet`的 [AbsAboutActivity](https://github.com/PureWriter/about-page)。
-
-这时候我们要继承这些`Activity`做自己的处理的时候，继承了其他`Activity`就没法继承`BaseLocaleAppCompatActivity`了呀！那怎么办呢？
-
-别急，下面是适配指南～
-
-举例适配`drakeet`的`AbsAboutActivity`，加入以下内容：
-```java
-abstract class TestActivity : AbsAboutActivity() {
-
-    private var recreateActivityReceiver: RecreateActivityReceiver? = null
-
-    override fun attachBaseContext(newBase: Context) {
-        super.attachBaseContext(LocaleManageUtil.updateContext(newBase))
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        // 使用广播实现不重启到 LauncherActivity 只需 recreate() 即可刷新 Resources
-        recreateActivityReceiver = RecreateActivityReceiver(this)
-        registerReceiver(recreateActivityReceiver, recreateActivityReceiver!!.getDefaultIntentFilter())
-    }
-
-    // 防止 Locale 被一个新的 Configuration 对象覆盖掉（AppCompat库1.1.0-alpha03以上版本）
-    override fun applyOverrideConfiguration(overrideConfiguration: Configuration?) {
-        if (overrideConfiguration != null) {
-            overrideConfiguration?.setLocale(LocaleManageUtil.getSetLocale())
-        }
-        super.applyOverrideConfiguration(overrideConfiguration)
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        unregisterReceiver(recreateActivityReceiver)
-    } 
-}
-```
-
+以下内容并非不再需要适配的原因，仅保留用作笔记
 > **对于切换语言后一定不在返回栈中的`Activity`，不必做适配。** 这是因为`App`内所有界面共享同一个`Locale`，切换后`Locale`变了，新启动的`Activity`用上新的`Context`已经是切换后的`Locale`。所以其实返回栈中的`Locale`也变了，只是界面资源没有刷新。
 
 </details>
@@ -144,16 +128,14 @@ LocaleConstant.RECREATE_CURRENT_ACTIVITY -> 重启已经打开的 Activity
 LocaleConstant.CUSTOM_WAY_TO_UPDATE_INTERFACE -> 自己实现刷新界面的方式
 ```
 
-插件自动初始化为`LocaleConstant.RECREATE_CURRENT_ACTIVITY`，若要自己实现，需要先在使用前调用以下代码初始化，建议在`Application`：
+插件默认初始化为`LocaleConstant.RECREATE_CURRENT_ACTIVITY`，若要自己实现，需要使用前先在`Application`初始化插件：
 ```java
-LocalePlugin
-    .setUpdateInterfaceWay(LocaleConstant.CUSTOM_WAY_TO_UPDATE_INTERFACE)   // 若调用时参数为空，则默认方式， recreate()
-    .init()
+LocalePlugin.init(this, LocaleConstant.CUSTOM_WAY_TO_UPDATE_INTERFACE)
 ```
 
-初始化过后，在切换语言的界面实现`ActivityUtil.OnUpdateInterfaceListener`接口、设置监听器，然后在接口方法体内写自己想要实现的刷新界面逻辑，如：
+初始化过后，在切换语言的界面实现`ActivityHelper.OnUpdateInterfaceListener`接口、设置监听器，然后在接口方法体内写自己想要实现的刷新界面逻辑，如：
 ```java
-class SettingActivity : BaseLocaleAppCompatActivity(), ActivityUtil.OnUpdateInterfaceListener {
+class SettingActivity : AppCompatActivity(), ActivityHelper.OnUpdateInterfaceListener {
 
     @SuppressLint("StringFormatInvalid")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -161,7 +143,7 @@ class SettingActivity : BaseLocaleAppCompatActivity(), ActivityUtil.OnUpdateInte
         setContentView(R.layout.activity_settings)
         ...
         // 设置监听器
-        ActivityUtil.setOnUpdateInterfaceListener(this)
+        ActivityHelper.getInstance().setOnUpdateInterfaceListener(this)
     }
 
     override fun updateInterface(context: Context, intent: Intent?) {
@@ -174,7 +156,7 @@ class SettingActivity : BaseLocaleAppCompatActivity(), ActivityUtil.OnUpdateInte
 然后在切换语言的时候调用：
 ```java
 // 应用切换的语言
-LocaleManageUtil
+LocaleHelper.getInstance()
     .language(which.toString())
     .apply(this@SettingActivity, intent, ActivityUtil)
 ```
@@ -183,18 +165,39 @@ LocaleManageUtil
 ```java
 val intent = Intent(this, MainActivity::class.java)
 intent.putExtra("Test", getString(R.string.activity_custom_refresh_way_test))
-LocaleManageUtil
+LocaleHelper.getInstance()
     .language(which.toString())
     .apply(this@SettingActivity, intent, ActivityUtil)
 ```
 
 </details>
+
+## 常见问题
+### 切换语言失效原因及解决方法
+
+<details>
+<summary>AndroidX AppCompat 库 1.1.0-alpha03 以上版本导致的 Locale 被一个新的 Configuration 对象覆盖掉</summary>
+
+#### AndroidX AppCompat 库 1.1.0-alpha03 以上版本导致的 Locale 被一个新的 Configuration 对象覆盖掉
+仅写出解决方法，本demo经测试无法复现问题
+
+在`Activity`中加入以下代码即可：
+```java
+// 防止 Locale 被一个新的 Configuration 对象覆盖掉（AndroidX AppCompat 库 1.1.0-alpha03 以上版本）
+override fun applyOverrideConfiguration(overrideConfiguration: Configuration?) {
+    overrideConfiguration?.setLocale(LocaleHelper.getInstance().getSetLocale())
+    super.applyOverrideConfiguration(overrideConfiguration)
+}
+```
+
 </details>
 
 ## 写在最后
 欢迎大家 Star、Fork 和提 Issue 提 PR 呀～
 
 ## Thanks
-- Thanks [@MichaelJokAr](https://github.com/MichaelJokAr). 感谢[@MichaelJokAr](https://github.com/MichaelJokAr)的教程——[Android国际化(多语言)实现，支持8.0](https://blog.csdn.net/a1018875550/article/details/79845949)。
+以下不分排名先后
 
-- Thanks [@Bakumon](https://github.com/Bakumon) 感谢宝可梦的指点
+- Thanks [@MichaelJokAr](https://github.com/MichaelJokAr). 感谢 [@MichaelJokAr](https://github.com/MichaelJokAr) 的教程——[Android国际化(多语言)实现，支持8.0](https://blog.csdn.net/a1018875550/article/details/79845949)
+- Thanks [@Bakumon](https://github.com/Bakumon). 感谢 [@宝可梦](https://github.com/Bakumon) 的指点
+- Thanks [@JessYan](https://github.com/JessYanCoding). 感谢 [@JessYan](https://github.com/JessYanCoding) 的教程——[我一行代码都不写实现Toolbar!你却还在封装BaseActivity?](https://juejin.im/post/590f09ec128fe100584ee6b0)
