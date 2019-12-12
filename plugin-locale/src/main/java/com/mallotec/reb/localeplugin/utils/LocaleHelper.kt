@@ -251,11 +251,12 @@ class LocaleHelper(private val application: Application) {
         private lateinit var instance: LocaleHelper
 
         fun getInstance(): LocaleHelper{
-            check(::instance.isInitialized) { "LocaleHelper should be initialized first" }
+            check(::instance.isInitialized) { "LocaleHelper should be initialized first, please check you are already LocalePlugin.init(...) in application" }
             return instance
         }
 
-        fun init(application: Application): LocaleHelper{
+        // internal 控制只能被 LocalePlugin 初始化
+        internal fun init(application: Application): LocaleHelper{
             check(!::instance.isInitialized) { "LocaleHelper is already initialized" }
             instance = LocaleHelper(application)
             return instance

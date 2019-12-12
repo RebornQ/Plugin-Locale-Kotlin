@@ -69,7 +69,7 @@ class ActivityHelper {
         private lateinit var instance : ActivityHelper
 
         fun getInstance(): ActivityHelper {
-            check(::instance.isInitialized) { "ActivityHelper should be initialized first"  }
+            check(::instance.isInitialized) { "ActivityHelper should be initialized first, please check you are already LocalePlugin.init(...) in application"  }
             return instance
         }
 
@@ -78,15 +78,17 @@ class ActivityHelper {
             return getInstance()
         }
 
-        fun init(interfaceUpdateWay: Int): ActivityHelper {
-            check(!::instance.isInitialized) { "LocaleDefaultSPHelper is already initialized" }
+        // internal 控制只能被 LocalePlugin 初始化
+        internal fun init(interfaceUpdateWay: Int): ActivityHelper {
+            check(!::instance.isInitialized) { "ActivityHelper is already initialized" }
             instance = ActivityHelper()
             getInstance().setInterfaceUpdateWay(interfaceUpdateWay)
             return instance
         }
 
-        fun init(): ActivityHelper {
-            check(!::instance.isInitialized) { "LocaleDefaultSPHelper is already initialized" }
+        // internal 控制只能被 LocalePlugin 初始化
+        internal fun init(): ActivityHelper {
+            check(!::instance.isInitialized) { "ActivityHelper is already initialized" }
             instance = ActivityHelper()
             return instance
         }

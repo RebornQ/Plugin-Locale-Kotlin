@@ -34,7 +34,7 @@ class LocaleDefaultSPHelper(private val context: Context) {
         private lateinit var instance : LocaleDefaultSPHelper
 
         private fun getInstance(): LocaleDefaultSPHelper {
-            check(::instance.isInitialized) { "LocaleDefaultSPHelper should be initialized first"  }
+            check(::instance.isInitialized) { "LocaleDefaultSPHelper should be initialized first, please check you are already LocalePlugin.init(...) in application"  }
             return instance
         }
 
