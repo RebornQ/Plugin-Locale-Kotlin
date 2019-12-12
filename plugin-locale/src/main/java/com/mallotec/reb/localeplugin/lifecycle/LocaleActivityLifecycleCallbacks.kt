@@ -6,6 +6,7 @@ import android.os.Bundle
 import com.mallotec.reb.localeplugin.LocaleConstant
 import com.mallotec.reb.localeplugin.receiver.RecreateActivityReceiver
 import com.mallotec.reb.localeplugin.utils.ActivityHelper
+import com.mallotec.reb.localeplugin.utils.BroadcastReceiverManager
 import com.mallotec.reb.localeplugin.utils.LocaleHelper
 
 /**
@@ -13,15 +14,12 @@ import com.mallotec.reb.localeplugin.utils.LocaleHelper
  */
 class LocaleActivityLifecycleCallbacks : Application.ActivityLifecycleCallbacks {
 
-    private var receiverMap : HashMap<Activity, RecreateActivityReceiver> = HashMap()
-
     override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
         LocaleHelper.getInstance().updateContext(activity)
         if (ActivityHelper.getInstance().getInterfaceUpdateWay() == LocaleConstant.RECREATE_CURRENT_ACTIVITY) {
             // 使用广播也可以实现不重启到 LauncherActivity 只需 recreate() 即可刷新 Resources
             val receiver = RecreateActivityReceiver(activity)
-            activity.registerReceiver(receiver, receiver.getDefaultIntentFilter())
-            receiverMap[activity] = receiver
+            BroadcastReceiverManager.registerBroadcastReceiver(activity, receiver, receiver.getDefaultIntentFilter())
         }
     }
 
@@ -29,11 +27,11 @@ class LocaleActivityLifecycleCallbacks : Application.ActivityLifecycleCallbacks 
 
     override fun onActivityStarted(activity: Activity) { }
 
+    // TODO 解决 Activity 对象被回收时还没来得及执行 onDestroy() 方法导致没注销对应的广播接收器引发的内存泄漏
     override fun onActivityDestroyed(activity: Activity) {
         if (ActivityHelper.getInstance().getInterfaceUpdateWay() == LocaleConstant.RECREATE_CURRENT_ACTIVITY) {
             try {
-                activity.unregisterReceiver(receiverMap[activity])
-                receiverMap.remove(activity)
+                BroadcastReceiverManager.unregisterBroadcastReceiver(activity)
             } catch (illException: IllegalArgumentException) {
                 illException.printStackTrace()
             }

@@ -10,7 +10,7 @@ class App : Application() {
     override fun onCreate() {
         super.onCreate()
         instance = this
-        LocalePlugin.init(this, LocaleConstant.CUSTOM_WAY_TO_UPDATE_INTERFACE)
+        LocalePlugin.init(this, LocaleConstant.RECREATE_CURRENT_ACTIVITY)
     }
 
     companion object {

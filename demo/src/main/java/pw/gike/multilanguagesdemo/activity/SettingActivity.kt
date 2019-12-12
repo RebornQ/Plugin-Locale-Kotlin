@@ -8,7 +8,6 @@ import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatActivity
 import com.mallotec.reb.localeplugin.utils.ActivityHelper
 import com.mallotec.reb.localeplugin.utils.LocaleHelper
 import pw.gike.multilanguagesdemo.R
