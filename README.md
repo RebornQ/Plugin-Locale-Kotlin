@@ -60,7 +60,7 @@ implementation 'com.mallotec.reb:plugin-locale:{last-version}'
     ```
     > 其中`{ 刷新界面的方式 }`有三种：
     > 1. `LocaleConstant.RESTART_TO_LAUNCHER_ACTIVITY`: 清空栈中所有`Activity`并重启到`LauncherActivity`
-    > 2. `LocaleConstant.RECREATE_CURRENT_ACTIVITY`: 重新创建当前`Activity`， **默认是这种方式，可不填写**
+    > 2. `LocaleConstant.RECREATE_CURRENT_ACTIVITY`: 重新创建当前`Activity`，***默认是这种方式，可不填写***。**此方式可能会因为内存低无法注销广播接收器而导致内存泄漏，解决方法请查看下方👉[常见问题](https://github.com/RebornQ/Plugin-Locale-Kotlin#%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98)或👉[Wiki](https://github.com/RebornQ/Plugin-Locale-Kotlin/wiki/Activity-%E5%AF%B9%E8%B1%A1%E8%A2%AB%E5%9B%9E%E6%94%B6%E6%97%B6%E8%BF%98%E6%B2%A1%E6%9D%A5%E5%BE%97%E5%8F%8A%E6%89%A7%E8%A1%8C-onDestroy()-%E6%96%B9%E6%B3%95%E5%AF%BC%E8%87%B4%E6%B2%A1%E6%B3%A8%E9%94%80%E5%AF%B9%E5%BA%94%E7%9A%84%E5%B9%BF%E6%92%AD%E6%8E%A5%E6%94%B6%E5%99%A8%E5%BC%95%E5%8F%91%E7%9A%84%E5%86%85%E5%AD%98%E6%B3%84%E6%BC%8F)**
     > 3. `LocaleConstant.CUSTOM_WAY_TO_UPDATE_INTERFACE`: 自定义刷新界面， **如果选这种方式的朋友请务必查看下方👉[更多用法](https://github.com/RebornQ/Plugin-Locale-Kotlin#%E6%9B%B4%E5%A4%9A%E7%94%A8%E6%B3%95)或👉[Wiki](https://github.com/RebornQ/Plugin-Locale-Kotlin/wiki/%E8%87%AA%E5%AE%9A%E4%B9%89%E5%88%87%E6%8D%A2%E8%AF%AD%E8%A8%80%E5%90%8E%E5%88%B7%E6%96%B0%E7%95%8C%E9%9D%A2%E7%9A%84%E6%96%B9%E5%BC%8F)**
 2. 一句代码调用切换语言：
 
@@ -192,6 +192,24 @@ override fun applyOverrideConfiguration(overrideConfiguration: Configuration?) {
 
 </details>
 
+### 内存泄漏原因及解决方法
+
+<details>
+<summary>Activity 对象被回收时还没来得及执行 onDestroy() 方法导致没注销对应的广播接收器引发的内存泄漏</summary>
+
+#### Activity 对象被回收时还没来得及执行 onDestroy() 方法导致没注销对应的广播接收器引发的内存泄漏
+
+这种情况常见于内存低的时候`Activity`被强制回收，不走`onDestroy()`方法导致的。
+
+遇到这种情况的朋友请自行判断内存低即将回收`Activity`的地方（`onTrimMemory()`?），
+
+然后手动调用以下代码注销广播接收器：
+```java
+BroadcastReceiverManager.unregisterBroadcastReceiver(activity)
+```
+
+</details>
+
 ## 写在最后
 欢迎大家 Star、Fork 和提 Issue 提 PR 呀～
 
@@ -201,3 +219,4 @@ override fun applyOverrideConfiguration(overrideConfiguration: Configuration?) {
 - Thanks [@MichaelJokAr](https://github.com/MichaelJokAr). 感谢 [@MichaelJokAr](https://github.com/MichaelJokAr) 的教程——[Android国际化(多语言)实现，支持8.0](https://blog.csdn.net/a1018875550/article/details/79845949)
 - Thanks [@Bakumon](https://github.com/Bakumon). 感谢 [@宝可梦](https://github.com/Bakumon) 的指点
 - Thanks [@JessYan](https://github.com/JessYanCoding). 感谢 [@JessYan](https://github.com/JessYanCoding) 的教程——[我一行代码都不写实现Toolbar!你却还在封装BaseActivity?](https://juejin.im/post/590f09ec128fe100584ee6b0)
+- Thanks [@Yaroslav Berezanskyi](https://proandroiddev.com/@yaroslavberezanskyi). 感谢 [@Yaroslav Berezanskyi](https://proandroiddev.com/@yaroslavberezanskyi) 的教程——[How to change the language on Android at runtime and don’t go mad](https://proandroiddev.com/change-language-programmatically-at-runtime-on-android-5e6bc15c758)
