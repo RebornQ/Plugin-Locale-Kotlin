@@ -4,6 +4,7 @@ import android.app.Application
 import com.mallotec.reb.localeplugin.lifecycle.LocaleActivityLifecycleCallbacks
 import com.mallotec.reb.localeplugin.lifecycle.LocaleComponentLifecycleCallbacks
 import com.mallotec.reb.localeplugin.utils.ActivityHelper
+import com.mallotec.reb.localeplugin.utils.BroadcastReceiverManager
 import com.mallotec.reb.localeplugin.utils.LocaleHelper
 
 /**
@@ -54,5 +55,6 @@ object LocalePlugin {
     // App 结束时调用
     fun terminate(application: Application) {
         unregisterLifecycleCallbacks(application)
+        BroadcastReceiverManager.unregisterAllBroadcastReceiver()
     }
 }
