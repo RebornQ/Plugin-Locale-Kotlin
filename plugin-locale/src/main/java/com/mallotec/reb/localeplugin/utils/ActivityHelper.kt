@@ -62,7 +62,7 @@ class ActivityHelper {
 
     fun updateInterface(context: Context, intent: Intent?) {
         // if(xx != null) ... else ...
-        onUpdateInterfaceListener?.updateInterface(context, intent) ?: throw IllegalArgumentException(context.getString(R.string.plugin_locale_listener_not_initialized))
+        onUpdateInterfaceListener?.updateInterface(context, intent) ?: throw IllegalArgumentException("The listener has not been initialized")
     }
 
     companion object {
