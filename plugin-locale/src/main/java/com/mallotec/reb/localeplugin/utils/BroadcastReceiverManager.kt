@@ -18,8 +18,10 @@ object BroadcastReceiverManager {
     }
 
     fun unregisterBroadcastReceiver(activity: Activity) {
-        activity.unregisterReceiver(receiverMap[activity])
-        receiverMap.remove(activity)
+        receiverMap[activity]?.let {
+            activity.unregisterReceiver(it)
+            receiverMap.remove(activity)
+        }
     }
 
     private fun unregisterAllBroadcastReceiver() {
