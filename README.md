@@ -3,11 +3,15 @@
 
 An android library with kotlin for changing multi-language.
 
-Only support `English/Simplified Chinese/Traditional Chinese`, but you can submit issues or contact to me if you need other languages.
+~~Only support `English/Simplified Chinese/Traditional Chinese`, but you can submit issues or contact to me if you need other languages.~~
+
+Now we support any language but need you to define the connection between language's key and value
 
 一个用 Kotlin 写的多语言切换的 Android 第三方库。
 
-目前只支持`英文/简中/繁中`三种语言，需要添加其他的语言可以提交 issue 或者直接联系我。
+~~目前只支持`英文/简中/繁中`三种语言，需要添加其他的语言可以提交 issue 或者直接联系我。~~
+
+现在我们支持任何一种语言，但是需要你自己定义你要支持的语言列表（Key 与 Value 间的关系），详情请看下方👉[注意事项](https://github.com/RebornQ/Plugin-Locale-Kotlin#%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9)。
 
 ## 背景
 项目历经9个月的演化，终于从一开始为宝可梦的那样记账研究的语言切换而写的`Demo`进化成第三方库。
@@ -48,7 +52,7 @@ implementation 'com.mallotec.reb:plugin-locale:{last-version}'
 
 </details>
 
-### 只需两步即可食用
+### 只需三步即可食用
 1. 在 Application 中初始化
 
     ```java
@@ -62,12 +66,26 @@ implementation 'com.mallotec.reb:plugin-locale:{last-version}'
     > 1. `LocaleConstant.RESTART_TO_LAUNCHER_ACTIVITY`: 清空栈中所有`Activity`并重启到`LauncherActivity`
     > 2. `LocaleConstant.RECREATE_CURRENT_ACTIVITY`: 重新创建当前`Activity`，***默认是这种方式，可不填写***。**此方式可能会因为内存低无法注销广播接收器而导致内存泄漏，解决方法请查看下方👉[常见问题](https://github.com/RebornQ/Plugin-Locale-Kotlin#%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98)或👉[Wiki](https://github.com/RebornQ/Plugin-Locale-Kotlin/wiki/Activity-%E5%AF%B9%E8%B1%A1%E8%A2%AB%E5%9B%9E%E6%94%B6%E6%97%B6%E8%BF%98%E6%B2%A1%E6%9D%A5%E5%BE%97%E5%8F%8A%E6%89%A7%E8%A1%8C-onDestroy()-%E6%96%B9%E6%B3%95%E5%AF%BC%E8%87%B4%E6%B2%A1%E6%B3%A8%E9%94%80%E5%AF%B9%E5%BA%94%E7%9A%84%E5%B9%BF%E6%92%AD%E6%8E%A5%E6%94%B6%E5%99%A8%E5%BC%95%E5%8F%91%E7%9A%84%E5%86%85%E5%AD%98%E6%B3%84%E6%BC%8F)**
     > 3. `LocaleConstant.CUSTOM_WAY_TO_UPDATE_INTERFACE`: 自定义刷新界面， **如果选这种方式的朋友请务必查看下方👉[更多用法](https://github.com/RebornQ/Plugin-Locale-Kotlin#%E6%9B%B4%E5%A4%9A%E7%94%A8%E6%B3%95)或👉[Wiki](https://github.com/RebornQ/Plugin-Locale-Kotlin/wiki/%E8%87%AA%E5%AE%9A%E4%B9%89%E5%88%87%E6%8D%A2%E8%AF%AD%E8%A8%80%E5%90%8E%E5%88%B7%E6%96%B0%E7%95%8C%E9%9D%A2%E7%9A%84%E6%96%B9%E5%BC%8F)**
-2. 一句代码调用切换语言：
+2. 定义好支持的语言列表对应关系，详情请看下方👉[注意事项](https://github.com/RebornQ/Plugin-Locale-Kotlin#%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9)，如：
+    
+    ```java
+    private fun getLocale(which : String): Locale {
+        return when (which) {
+            "0" -> Locale.ROOT  // 跟随系统
+            "1" -> Locale.ENGLISH
+            "2" -> Locale.SIMPLIFIED_CHINESE
+            "3" -> Locale.TRADITIONAL_CHINESE
+            else -> Locale.SIMPLIFIED_CHINESE
+        }
+    }
+    ```
+
+3. 一句代码调用切换语言：
 
     ```java
     // 应用切换的语言
     LocaleHelper.getInstance()
-        .language(which.toString())
+        .language(getLocale(which.toString()))
         .apply(this)
     ```
     
@@ -77,7 +95,7 @@ implementation 'com.mallotec.reb:plugin-locale:{last-version}'
     // 应用切换的语言
     val intent = Intent(this, TargetActivity::class.java)
     LocaleHelper.getInstance()
-        .language(which.toString())
+        .language(getLocale(which.toString()))
         .apply(this, intent)
     ```
     若`{ 刷新界面的方式 }`选择了第三种`LocaleConstant.CUSTOM_WAY_TO_UPDATE_INTERFACE`，请使用下面的方式：
@@ -86,7 +104,12 @@ implementation 'com.mallotec.reb:plugin-locale:{last-version}'
    **注意：这里的`this`必须是当前`Activity`的`Context`；`which`是所选的语言标记，详情请看下方注意事项的对应关系**
 
 ### 注意事项
-`SharePreferences`中`language`字段的`value`与 App 语言的对应关系：
+#### `SharePreferences`中`language`字段的`value`与 App 语言的对应关系
+
+对应关系如下：
+
+<details>
+<summary>V1.0.10 前的版本</summary>
 
 ```java
 "0" -> 跟随系统
@@ -94,6 +117,39 @@ implementation 'com.mallotec.reb:plugin-locale:{last-version}'
 "2" -> 简体中文
 "3" -> 繁体中文
 ```
+
+</details>
+
+<details>
+<summary>V1.0.10+</summary>
+
+新版本兼容获取旧版本的值，但是设置的时候会重新`set`新的值，放心，**绝对平稳过渡**。
+
+新版本对应关系需要自己定义（**必须做这一步！！！**），这样就**可以自己定义支持什么语言**了，举例：
+```java
+private fun getLocale(which : String): Locale {
+    return when (which) {
+        "0" -> Locale.ROOT  // 跟随系统
+        "1" -> Locale.ENGLISH
+        "2" -> Locale.SIMPLIFIED_CHINESE
+        "3" -> Locale.TRADITIONAL_CHINESE
+        else -> Locale.SIMPLIFIED_CHINESE
+    }
+}
+```
+
+然后再一句代码调用切换语言：
+
+```java
+// 应用切换的语言
+LocaleHelper.getInstance()
+    .language(getLocale(which.toString()))
+    .apply(this)
+```
+
+> 说明：通常，`which`为语言列表的第几项。当然，你也可以不定义`0/1/2/3`，你可以定义`auto/en/zh_cn/zh_tw`。**注意：若要做`跟随系统`，此项对应关系的`value`必须为`Locale.ROOT`**
+
+</details>
 
 ### Demo
 
