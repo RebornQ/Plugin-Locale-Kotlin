@@ -60,6 +60,6 @@ dependencies {
     implementation 'org.greenrobot:eventbus:3.1.1'
     // LocalePlugin
     debugImplementation project(':plugin-locale')
-//    debugImplementation(name: 'plugin-locale-debug', ext: 'aar')
+//    debugImplementation(name: 'plugin-locale-release', ext: 'aar')
     releaseImplementation 'com.mallotec.reb:plugin-locale:1.0.10'
 }
