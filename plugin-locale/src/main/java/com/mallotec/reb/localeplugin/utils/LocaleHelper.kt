@@ -11,6 +11,7 @@ import android.util.Log
 import com.mallotec.reb.localeplugin.LocaleConstant
 import com.mallotec.reb.localeplugin.LocaleDefaultSPHelper
 import com.mallotec.reb.localeplugin.R
+import org.json.JSONObject
 import java.util.*
 
 class LocaleHelper(private val application: Application) {
@@ -22,24 +23,38 @@ class LocaleHelper(private val application: Application) {
      * 获取已选择的语言设置
      */
     fun getSetLocale(): Locale {
-        return when (LocaleDefaultSPHelper.language) {
-            "0" -> currentSystemLocale
-            "1" -> Locale.ENGLISH
-            "2" -> Locale.SIMPLIFIED_CHINESE
-            "3" -> Locale.TRADITIONAL_CHINESE
-            else -> Locale.SIMPLIFIED_CHINESE
+        with(LocaleDefaultSPHelper.language) {
+            return when (this) {
+                "0" -> currentSystemLocale
+                "1" -> Locale.ENGLISH
+                "2" -> Locale.SIMPLIFIED_CHINESE
+                "3" -> Locale.TRADITIONAL_CHINESE
+                else -> return if (JSONObject(this).getString("language") == "auto") {
+                    currentSystemLocale
+                } else {
+                    getLocaleFromJSON(this)
+                }
+            }
         }
     }
+
     /**
      * 获取已选择的语言对应的名称
      */
     fun getSelectLanguageString(context: Context): String {
-        return when (LocaleDefaultSPHelper.language) {
-            "0" -> context.resources.getStringArray(R.array.plugin_locale_language_titles)[0]
-            "1" -> context.resources.getStringArray(R.array.plugin_locale_language_titles)[1]
-            "2" -> context.resources.getStringArray(R.array.plugin_locale_language_titles)[2]
-            "3" -> context.resources.getStringArray(R.array.plugin_locale_language_titles)[3]
-            else -> context.resources.getStringArray(R.array.plugin_locale_language_titles)[3]
+        with(LocaleDefaultSPHelper.language) {
+            return when (this) {
+                "0" -> context.resources.getStringArray(R.array.plugin_locale_language_titles)[0]
+                "1" -> context.resources.getStringArray(R.array.plugin_locale_language_titles)[1]
+                "2" -> context.resources.getStringArray(R.array.plugin_locale_language_titles)[2]
+                "3" -> context.resources.getStringArray(R.array.plugin_locale_language_titles)[3]
+                else -> return if (JSONObject(this).getString("language") == "auto") {
+                    context.resources.getStringArray(R.array.plugin_locale_language_titles)[0]
+                } else {
+                    getLocaleFromJSON(this).displayName
+                }
+
+            }
         }
     }
 
@@ -70,7 +85,8 @@ class LocaleHelper(private val application: Application) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             setAppLocale(config, locale)
             // ApplicationContext貌似没办法在其他地方更新configuration
-            cont = cont.createConfigurationContext(config)  // 对于8.0+系统必须先调用context.createConfigurationContext(config);否则后面的updateConfiguration不起作用。
+            cont =
+                cont.createConfigurationContext(config)  // 对于8.0+系统必须先调用context.createConfigurationContext(config);否则后面的updateConfiguration不起作用。
         } else {
             setAppLocaleLegacy(config, locale)
         }
@@ -100,7 +116,7 @@ class LocaleHelper(private val application: Application) {
     /**
      * 更新 ApplictionContext
      */
-    fun updateApplicationContext(context: Context) : Context {
+    fun updateApplicationContext(context: Context): Context {
         return updateContext(context.applicationContext)
     }
 
@@ -186,12 +202,34 @@ class LocaleHelper(private val application: Application) {
         updateApplicationContext(context)
     }
 
+    private fun getLocaleJSON(locale: Locale): String {
+        val jsonObject = JSONObject()
+        if (locale.language == "") {
+            jsonObject.put("language", "auto")
+        } else {
+            jsonObject.put("language", locale.language)
+        }
+        return jsonObject
+            .put("country", locale.country)
+            .put("variant", locale.variant)
+            .toString()
+    }
+
+    private fun getLocaleFromJSON(jsonString: String): Locale {
+        val jsonObject = JSONObject(jsonString)
+        return Locale(
+            jsonObject.getString("language"),
+            jsonObject.getString("country"),
+            jsonObject.getString("variant")
+        )
+    }
+
     /**
      * 保存选择的语言
      */
-    fun language(selectLanguage: String) : LocaleHelper {
+    fun language(selectLocale: Locale): LocaleHelper {
         // 需要先保存选择的语言，否则更新 application 的语言配置时，拿到的还是上次配置的语言
-        LocaleDefaultSPHelper.language = selectLanguage
+        LocaleDefaultSPHelper.language = getLocaleJSON(selectLocale)
         // recreate() 后只在 BaseActivity#attachBaseContext() 更新 Context，不更新 ApplicationContext，因此要手动更新
         getInstance().updateApplicationContext(getInstance().application)
         return instance

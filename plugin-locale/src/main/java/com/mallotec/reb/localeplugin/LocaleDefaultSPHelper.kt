@@ -19,6 +19,7 @@ package com.mallotec.reb.localeplugin
 import android.content.Context
 import com.mallotec.reb.localeplugin.utils.getSPValue
 import com.mallotec.reb.localeplugin.utils.saveSPValue
+import org.json.JSONObject
 
 /**
  * 默认 Preference
@@ -44,7 +45,7 @@ class LocaleDefaultSPHelper(private val context: Context) {
         var language: String
             get() = getInstance().getContext().getSPValue(
                 LocaleConstant.LANGUAGE,
-                "0"
+                JSONObject().put("language", "auto").toString()
             )
             set(value) = getInstance().getContext().saveSPValue(
                 LocaleConstant.LANGUAGE,

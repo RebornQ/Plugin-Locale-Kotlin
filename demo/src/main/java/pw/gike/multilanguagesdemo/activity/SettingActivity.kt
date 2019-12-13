@@ -11,6 +11,7 @@ import androidx.appcompat.app.AlertDialog
 import com.mallotec.reb.localeplugin.utils.ActivityHelper
 import com.mallotec.reb.localeplugin.utils.LocaleHelper
 import pw.gike.multilanguagesdemo.R
+import java.util.*
 
 
 // 此处不能继承AppCompatActivity，否则无法通过attachBaseContext()刷新语言
@@ -57,11 +58,21 @@ class SettingActivity : BaseActivity(), ActivityHelper.OnUpdateInterfaceListener
             val intent = Intent(this, MainActivity::class.java)
             intent.putExtra("Test", getString(R.string.activity_custom_refresh_way_test))
             LocaleHelper.getInstance()
-                .language(resources.getStringArray(R.array.language_values)[which])
+                .language(getLocale(which.toString()))
                 .apply(this, intent, ActivityHelper.getInstance())
             dialog.dismiss()
         }
         listDialog.show()
+    }
+
+    private fun getLocale(which : String): Locale {
+        return when (which) {
+            "0" -> Locale.ROOT
+            "1" -> Locale.ENGLISH
+            "2" -> Locale.SIMPLIFIED_CHINESE
+            "3" -> Locale.TRADITIONAL_CHINESE
+            else -> Locale.SIMPLIFIED_CHINESE
+        }
     }
 
     override fun updateInterface(context: Context, intent: Intent?) {
