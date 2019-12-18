@@ -3,7 +3,7 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 
 // 版本号，下次更新是只需要更改版本号即可
-version = "1.0.11"
+version = "1.0.12"
 
 android {
     compileSdkVersion 29

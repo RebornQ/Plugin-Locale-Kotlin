@@ -61,5 +61,5 @@ dependencies {
     // LocalePlugin
     debugImplementation project(':plugin-locale')
 //    debugImplementation(name: 'plugin-locale-release', ext: 'aar')
-    releaseImplementation 'com.mallotec.reb:plugin-locale:1.0.10'
+    releaseImplementation 'com.mallotec.reb:plugin-locale:1.0.12'
 }
