@@ -1,17 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="plugin_locale_app_name">LocalePlugin</string>
-
-    <string-array name="plugin_locale_language_titles">
-        <item>Auto</item>
-        <item>English</item>
-        <item>简体中文</item>
-        <item>繁體中文</item>
-    </string-array>
-    <string-array name="plugin_locale_language_values">
-        <item>0</item>
-        <item>1</item>
-        <item>2</item>
-        <item>3</item>
-    </string-array>
+    <string name="plugin_locale_language_title_auto">Auto</string>
 </resources>

@@ -17,8 +17,6 @@
 package com.mallotec.reb.localeplugin
 
 import android.content.Context
-import com.mallotec.reb.localeplugin.utils.getSPValue
-import com.mallotec.reb.localeplugin.utils.saveSPValue
 import org.json.JSONObject
 
 /**
@@ -27,15 +25,28 @@ import org.json.JSONObject
  */
 class LocaleDefaultSPHelper(private val context: Context) {
 
-    fun getContext() : Context{
+    fun getContext(): Context {
         return context
     }
 
-    companion object{
-        private lateinit var instance : LocaleDefaultSPHelper
+    /**
+     * Returns the name used for storing default shared preferences.
+     *
+     * @see .getDefaultSharedPreferences
+     */
+    private fun getDefaultSharedPreferencesName(): String? {
+        return context.packageName + "_preferences"
+    }
+
+    private fun getDefaultSharedPreferencesMode(): Int {
+        return Context.MODE_PRIVATE
+    }
+
+    companion object {
+        private lateinit var instance: LocaleDefaultSPHelper
 
         private fun getInstance(): LocaleDefaultSPHelper {
-            check(::instance.isInitialized) { "LocaleDefaultSPHelper should be initialized first, please check you are already LocalePlugin.init(...) in application"  }
+            check(::instance.isInitialized) { "LocaleDefaultSPHelper should be initialized first, please check you are already LocalePlugin.init(...) in application" }
             return instance
         }
 
@@ -43,16 +54,22 @@ class LocaleDefaultSPHelper(private val context: Context) {
          * 语言
          */
         var language: String
-            get() = getInstance().getContext().getSPValue(
+            get() = getInstance().getContext().getSharedPreferences(
+                getInstance().getDefaultSharedPreferencesName(),
+                getInstance().getDefaultSharedPreferencesMode()
+            ).getString(
                 LocaleConstant.LANGUAGE,
                 JSONObject().put("language", "auto").toString()
-            )
-            set(value) = getInstance().getContext().saveSPValue(
+            ) ?: JSONObject().put("language", "auto").toString()
+            set(value) = getInstance().getContext().getSharedPreferences(
+                getInstance().getDefaultSharedPreferencesName(),
+                getInstance().getDefaultSharedPreferencesMode()
+            ).edit().putString(
                 LocaleConstant.LANGUAGE,
                 value
-            )
+            ).apply()
 
-        fun init(context: Context): LocaleDefaultSPHelper{
+        fun init(context: Context): LocaleDefaultSPHelper {
             check(!::instance.isInitialized) { "LocaleDefaultSPHelper is already initialized" }
             instance = LocaleDefaultSPHelper(context)
             return instance

@@ -44,12 +44,12 @@ class LocaleHelper(private val application: Application) {
     fun getSelectLanguageString(context: Context): String {
         with(LocaleDefaultSPHelper.language) {
             return when (this) {
-                "0" -> context.resources.getStringArray(R.array.plugin_locale_language_titles)[0]
-                "1" -> context.resources.getStringArray(R.array.plugin_locale_language_titles)[1]
-                "2" -> context.resources.getStringArray(R.array.plugin_locale_language_titles)[2]
-                "3" -> context.resources.getStringArray(R.array.plugin_locale_language_titles)[3]
+                "0" -> context.getString(R.string.plugin_locale_language_title_auto)
+                "1" -> "English"
+                "2" -> "简体中文"
+                "3" -> "繁體中文"
                 else -> return if (JSONObject(this).getString("language") == "auto") {
-                    context.resources.getStringArray(R.array.plugin_locale_language_titles)[0]
+                    context.getString(R.string.plugin_locale_language_title_auto)
                 } else {
                     getLocaleFromJSON(this).displayName
                 }
