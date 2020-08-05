@@ -14,26 +14,34 @@ Now we support any language but need you to define the connection between langua
 
 这是我的第一个开源第三方库，说起来还挺激动的（嗯...失眠了...）～
 
+## Demo
+
+### 效果图
+
+默认第二种刷新界面方式
+
+![MultiLanguageDemo-NoRestartToLaunche](https://cdn.jsdelivr.net/gh/RebornQ/Plugin-Locale-Kotlin/media/MultiLanguageDemo-NoRestartToLauncher.gif)
+
+### 下载
+更多请查看 Demo 的 [源码地址](https://github.com/RebornQ/Plugin-Locale-Kotlin/tree/master/demo)，下载 [Demo.apk](https://github.com/RebornQ/Plugin-Locale-Kotlin/raw/master/media/demo-debug.apk)（网络有问题可以下载这个 [Demo.apk](https://cdn.jsdelivr.net/gh/RebornQ/Plugin-Locale-Kotlin/media/demo-debug.apk)）
+
 ## 使用文档
-### 引入依赖
-#### plugin-locale
-**（可选）项目的 build.gradle 中加入：**
-> *当 JCenter 无法链接的时候可以尝试使用*
+### 引入依赖 
+![Bintray](https://img.shields.io/bintray/v/rebornq/maven/plugin-locale?style=flat-square)
+
+在 app.gradle 中加入以下内容：
 
 ```java
-allprojects {
-    repositories {
-        // ...
-        maven { url "https://dl.bintray.com/rebornq/maven/" }
-    }
+repositories {
+    jcenter()
+}
+dependencies {
+    implementation 'com.mallotec.reb:plugin-locale:${last-version}'
 }
 ```
 
-**app.gradle 中加入：**
-```java
-implementation 'com.mallotec.reb:plugin-locale:{last-version}'
-```
-> **注意：`{last-version}`要替换为最新版本号**，最新版本链接：[https://bintray.com/rebornq/maven/plugin-locale/_latestVersion](https://bintray.com/rebornq/maven/plugin-locale/_latestVersion)
+<!-- https://shields.io/category/version -->
+<!-- (https://bintray.com/rebornq/maven/plugin-locale/_latestVersion) -->
 
 <details>
 <summary>混淆规则</summary>
@@ -80,17 +88,6 @@ implementation 'com.mallotec.reb:plugin-locale:{last-version}'
     
    **注意：这里的`this`必须是当前`Activity`的`Context`；`which`是所选的语言标记，详情请看下方注意事项的对应关系**
 
-
-### Demo
-
-<details>
-<summary>效果图（默认第二种刷新界面方式）</summary>
-
-![MultiLanguageDemo-NoRestartToLaunche](/media/MultiLanguageDemo-NoRestartToLauncher.gif)
-
-</details>
-
-更多请查看本项目的 [Demo](https://github.com/RebornQ/Plugin-Locale-Kotlin/tree/master/demo)
 
 ## 注意事项、常见问题和更多用法
 注意事项、常见问题以及更多用法，请转战 **Wiki** ：🚪[传送门](https://github.com/RebornQ/Plugin-Locale-Kotlin/wiki)
